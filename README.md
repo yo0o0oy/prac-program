@@ -5,6 +5,7 @@
  * vue
    - vueuse
    - composition API
+   - transition
  * typescript
  * React(React Native)
 
