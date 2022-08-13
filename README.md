@@ -1,17 +1,5 @@
 # practice
 
-## Javascript
- * nuxt
- * vue
-   - vueuse
-   - composition API
-   - transition
- * typescript
- * React(React Native)
-   - todoアプリ
-   - calculationアプリ
-   - mbo
-
 ## デザインパターン
  * 生成に関するパターン
    - AbstractFactory（関連する部品を組み合わせて製品を作る）
@@ -43,7 +31,20 @@
 ## PHP
  * class
  * laravel
+   - twitter
  * wordpress
+
+## Javascript
+ * nuxt
+ * vue
+   - vueuse
+   - composition API
+   - transition
+ * typescript
+ * React(React Native)
+   - todoアプリ
+   - calculationアプリ
+   - mbo
 
 ## Java
 
