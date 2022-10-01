@@ -6,3 +6,19 @@
 .App ul li {
   list-style: none;
 }
+
+.App table {
+  width: 300px;
+  margin: 50px auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.App table th {
+  border: solid 1px #222;
+  background: pink;
+}
+
+.App table td {
+  border: solid 1px #222;
+}
