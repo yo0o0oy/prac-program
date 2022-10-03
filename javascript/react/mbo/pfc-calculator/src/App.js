@@ -59,7 +59,7 @@ class App extends React.Component {
           <li>体脂肪率：{this.state.fatPercentage}%</li>
           <li>徐脂肪体重：{this.leanBodyMass()}kg</li>
           <li>基礎代謝：{this.bm()}kcal</li>
-          <li>目標：{this.consumedKcal()}kcal</li>
+          <li>目標：{this.intakeKcal()}kcal</li>
         </ul>
         <table ref={this.pfcTable}>
           <thead>
@@ -96,14 +96,14 @@ class App extends React.Component {
       pfc.p.kcal = Math.round(pfc.p.g * 4)
       pfc.f.g = Math.round(this.leanBodyMass() * 0.8)
       pfc.f.kcal = Math.round(pfc.f.g * 4)
-      pfc.c.kcal = this.consumedKcal() - pfc.p.kcal - pfc.f.kcal
+      pfc.c.kcal = this.intakeKcal() - pfc.p.kcal - pfc.f.kcal
       pfc.c.g = Math.round(pfc.c.kcal / 4)
       this.setState({ pfc })
     }
   }
 
   /*
-   * 徐脂肪体重を計算
+   * 徐脂肪体重
    * TODO: computed的なんにしたい
    */
   leanBodyMass() {
@@ -111,7 +111,7 @@ class App extends React.Component {
   }
 
   /*
-   * 基礎代謝を計算
+   * 基礎代謝
    * TODO: computed的なんにしたい
    */
   bm() {
@@ -119,10 +119,10 @@ class App extends React.Component {
   }
 
   /*
-   * 摂取カロリーを計算
+   * 摂取カロリー
    * TODO: computed的なんにしたい
    */
-  consumedKcal() {
+  intakeKcal() {
     return this.bm() - 300;
   }
 
