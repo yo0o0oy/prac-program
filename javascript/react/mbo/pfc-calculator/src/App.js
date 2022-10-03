@@ -33,8 +33,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       sex: 'F',
-      weight: 53,
-      fatPercentage: 30,
+      weight: 50,
+      fatPercentage: 25,
       pfc: {
         p: { name: 'たんぱく質' },
         f: { name: '脂質' },
@@ -52,6 +52,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <h2>PFC CALCULATOR</h2>
+        <Question></Question>
         <ul>
           <li>性別：{sexName}</li>
           <li>体重：{this.state.weight}kg</li>
@@ -93,7 +94,7 @@ class App extends React.Component {
       const pfc = Object.assign(this.state.pfc)
       pfc.p.g = this.state.weight * 2
       pfc.p.kcal = Math.round(pfc.p.g * 4)
-      pfc.f.g = this.leanBodyMass() * 0.8
+      pfc.f.g = Math.round(this.leanBodyMass() * 0.8)
       pfc.f.kcal = Math.round(pfc.f.g * 4)
       pfc.c.kcal = this.consumedKcal() - pfc.p.kcal - pfc.f.kcal
       pfc.c.g = Math.round(pfc.c.kcal / 4)

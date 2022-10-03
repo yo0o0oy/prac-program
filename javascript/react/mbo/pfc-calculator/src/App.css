@@ -1,6 +1,12 @@
 /* TODO: stylus入れたい */
 .App {
+  width: 90%;
+  margin: 0 auto;
   text-align: center;
+}
+
+.App ul {
+  padding: 0;
 }
 
 .App ul li {
