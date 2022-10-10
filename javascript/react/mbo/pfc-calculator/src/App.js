@@ -5,26 +5,84 @@ import './App.css';
 class Question extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      no: 1,
-    }
   }
 
   handleClick() {
-    let no = this.state.no
-    this.setState({
-      no: no++,
-    })
     console.log('next!')
   }
 
   render() {
-    const q = data;
-    console.log(data)
+    const question = data[this.props.no - 1];
+    console.log(question)
     return (
       <div className="question">
-        <div>Question {this.state.no}</div>
-        <button onClick={this.handleClick}>next</button>
+        <div className="q">{question.question}</div>
+        <div className="a">選択肢</div>
+      </div>
+    );
+  }
+}
+
+class Result extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    const sexName = this.props.sex === 'F' ? '女' : '男';
+    const weight = this.props.weight;
+    const fatPercentage = this.props.fatPercentage;
+    const leanBodyMass = () => Math.round(weight * (1 - fatPercentage / 100)); // 徐脂肪体重
+    const bm = () => leanBodyMass() * 40; // 基礎代謝
+    const intakeKcal = () => bm() - 300; // 目標摂取カロリー
+    const pfcTable = () => {
+      const pg = weight * 2
+      const pkcal = pg * 4
+      const fg = Math.round(leanBodyMass() * 0.8)
+      const fkcal = fg * 9
+      const ckcal = intakeKcal() - pkcal - fkcal
+      const cg =  Math.round(ckcal / 4)
+      const pfc = {
+        p: { name: 'たんぱく質', g: pg, kcal: pkcal },
+        f: { name: '脂質', g: fg, kcal: fkcal },
+        c: { name: '炭水化物', g: cg, kcal: ckcal },
+      }
+
+      return (
+        <table className="pfc-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>g</th>
+              <th>kcal</th>
+            </tr>
+          </thead>
+          <tbody>
+            { Object.keys(pfc).map((key) => {
+              return (
+                <tr key={key}>
+                  <th>{pfc[key].name}</th>
+                  <td>{pfc[key].g} g</td>
+                  <td>{pfc[key].kcal} kcal</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      )
+    }
+
+    return (
+      <div className="result">
+        <ul>
+          <li>性別：{sexName}</li>
+          <li>体重：{weight}kg</li>
+          <li>体脂肪率：{fatPercentage}%</li>
+          <li>徐脂肪体重：{leanBodyMass()}kg</li>
+          <li>基礎代謝：{bm()}kcal</li>
+          <li>目標：{intakeKcal()}kcal</li>
+        </ul>
+        {pfcTable()}
       </div>
     );
   }
@@ -37,110 +95,27 @@ class App extends React.Component {
       sex: 'F',
       weight: 50,
       fatPercentage: 25,
-      pfc: {
-        p: { name: 'たんぱく質' },
-        f: { name: '脂質' },
-        c: { name: '炭水化物' },
-      },
+      no: 1,
     };
-    this.pfcTable = React.createRef();
   }
 
-  handleSubmit(val) {
-    console.log(val)
+  handleSubmit(ev) {
+    console.log(ev)
   }
 
-  handleChange(event) {
-    console.log(event)
-    // this.setState({weight: event.target.value});
+  handleChange(ev) {
+    console.log(ev)
   }
 
   render() {
-    const sexName = this.state.sex === 'F' ? '女' : '男';
     return (
       <div className="App">
         <h2>PFC CALCULATOR</h2>
-        <Question></Question>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Name:
-            <input type="text" value={this.state.weight} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="next" />
-        </form>
-        <ul>
-          <li>性別：{sexName}</li>
-          <li>体重：{this.state.weight}kg</li>
-          <li>体脂肪率：{this.state.fatPercentage}%</li>
-          <li>徐脂肪体重：{this.leanBodyMass()}kg</li>
-          <li>基礎代謝：{this.bm()}kcal</li>
-          <li>目標：{this.intakeKcal()}kcal</li>
-        </ul>
-        <table ref={this.pfcTable}>
-          <thead>
-            <tr>
-              <th></th>
-              <th>g</th>
-              <th>kcal</th>
-            </tr>
-          </thead>
-          <tbody>
-            { Object.keys(this.state.pfc).map((key)=>{
-              return (
-                <tr key={key}>
-                  <th>{this.state.pfc[key].name}</th>
-                  <td>{this.state.pfc[key].g} g</td>
-                  <td>{this.state.pfc[key].kcal} kcal</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+        <Question no={this.state.no}></Question>
+        <Result sex={this.state.sex} weight={this.state.weight} fatPercentage={this.state.fatPercentage}></Result>
       </div>
     );
   }
-
-  /*
-   * PFCを計算
-   * TODO: computed的なんにしたい
-   */
-  calcPfc() {
-    if (this.pfcTable) {
-      const pfc = Object.assign(this.state.pfc)
-      pfc.p.g = this.state.weight * 2
-      pfc.p.kcal = Math.round(pfc.p.g * 4)
-      pfc.f.g = Math.round(this.leanBodyMass() * 0.8)
-      pfc.f.kcal = Math.round(pfc.f.g * 4)
-      pfc.c.kcal = this.intakeKcal() - pfc.p.kcal - pfc.f.kcal
-      pfc.c.g = Math.round(pfc.c.kcal / 4)
-      this.setState({ pfc })
-    }
-  }
-
-  /*
-   * 徐脂肪体重
-   * TODO: computed的なんにしたい
-   */
-  leanBodyMass() {
-    return Math.round(this.state.weight * (1 - this.state.fatPercentage / 100));
-  }
-
-  /*
-   * 基礎代謝
-   * TODO: computed的なんにしたい
-   */
-  bm() {
-    return this.leanBodyMass() * 40;
-  }
-
-  /*
-   * 摂取カロリー
-   * TODO: computed的なんにしたい
-   */
-  intakeKcal() {
-    return this.bm() - 300;
-  }
-
 }
 
 export default App;
