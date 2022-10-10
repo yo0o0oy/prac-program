@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-
+import data from "./questions.json" assert { type: "json" }
 import './App.css';
 
 class Question extends React.Component {
@@ -19,6 +19,8 @@ class Question extends React.Component {
   }
 
   render() {
+    const q = data;
+    console.log(data)
     return (
       <div className="question">
         <div>Question {this.state.no}</div>
@@ -48,6 +50,11 @@ class App extends React.Component {
     console.log(val)
   }
 
+  handleChange(event) {
+    console.log(event)
+    // this.setState({weight: event.target.value});
+  }
+
   render() {
     const sexName = this.state.sex === 'F' ? '女' : '男';
     return (
@@ -57,9 +64,9 @@ class App extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <label>
             Name:
-            <input type="text" value={this.state.weight} />
+            <input type="text" value={this.state.weight} onChange={this.handleChange} />
           </label>
-          <input type="次へ" value="Submit" />
+          <input type="submit" value="next" />
         </form>
         <ul>
           <li>性別：{sexName}</li>
