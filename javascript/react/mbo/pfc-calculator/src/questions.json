@@ -1,0 +1,144 @@
+[
+  {
+    "no": 1,
+    "question": "性別を選択してください",
+    "forms": [
+      {
+        "name": "sex",
+        "type": "radio",
+        "items": [
+          {
+            "label": {
+              "text": "男",
+              "img": ""
+            },
+            "value": "M"
+          },
+          {
+            "label": {
+              "text": "女",
+              "img": ""
+            },
+            "value": "F"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "no": 2,
+    "question": "体重と体脂肪を入力してください",
+    "forms": [
+      {
+        "name": "weight",
+        "type": "input",
+        "suffix": "kg"
+      },
+      {
+        "name": "fatPercentage",
+        "type": "input",
+        "suffix": "%"
+      }
+    ]
+  },
+  {
+    "no": 3,
+    "question": "なりたい体を選択してください",
+    "forms": [
+      {
+        "name": "sex",
+        "type": "radio",
+        "items": {
+          "M": [
+            {
+              "label": {
+                "text": "約3%",
+                "img": ""
+              },
+              "value": 3
+            },
+            {
+              "label": {
+                "text": "約6%",
+                "img": ""
+              },
+              "value": 6
+            },
+            {
+              "label": {
+                "text": "約9%",
+                "img": ""
+              },
+              "value": 9
+            },
+            {
+              "label": {
+                "text": "約14%",
+                "img": ""
+              },
+              "value": 14
+            },
+            {
+              "label": {
+                "text": "約20%",
+                "img": ""
+              },
+              "value": 20
+            },
+            {
+              "label": {
+                "text": "約30%",
+                "img": ""
+              },
+              "value": 30
+            }
+          ],
+          "F": [
+            {
+              "label": {
+                "text": "約10%",
+                "img": ""
+              },
+              "value": 10
+            },
+            {
+              "label": {
+                "text": "約14%",
+                "img": ""
+              },
+              "value": 14
+            },
+            {
+              "label": {
+                "text": "約17%",
+                "img": ""
+              },
+              "value": 17
+            },
+            {
+              "label": {
+                "text": "約20%",
+                "img": ""
+              },
+              "value": 20
+            },
+            {
+              "label": {
+                "text": "約25%",
+                "img": ""
+              },
+              "value": 25
+            },
+            {
+              "label": {
+                "text": "約30%",
+                "img": ""
+              },
+              "value": 30
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
