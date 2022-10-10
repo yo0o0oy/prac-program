@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import './App.css';
 
@@ -43,8 +43,9 @@ class App extends React.Component {
     };
     this.pfcTable = React.createRef();
   }
-  componentDidMount() {
-    this.calcPfc();
+
+  handleSubmit(val) {
+    console.log(val)
   }
 
   render() {
@@ -53,6 +54,13 @@ class App extends React.Component {
       <div className="App">
         <h2>PFC CALCULATOR</h2>
         <Question></Question>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Name:
+            <input type="text" value={this.state.weight} />
+          </label>
+          <input type="次へ" value="Submit" />
+        </form>
         <ul>
           <li>性別：{sexName}</li>
           <li>体重：{this.state.weight}kg</li>
