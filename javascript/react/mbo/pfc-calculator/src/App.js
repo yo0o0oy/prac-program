@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import data from "./questions.json" assert { type: "json" }
+import questions from "./questions.json" assert { type: "json" }
 import './App.css';
 
 class Question extends React.Component {
@@ -7,17 +7,32 @@ class Question extends React.Component {
     super(props)
   }
 
-  handleClick() {
-    console.log('next!')
-  }
-
   render() {
-    const question = data[this.props.no - 1];
-    console.log(question)
+    const question = questions[this.props.no - 1];
     return (
       <div className="question">
         <div className="q">{question.question}</div>
-        <div className="a">選択肢</div>
+        <div className="a">
+          {question.forms.map((form) => {
+            switch (form.type) {
+              case 'radio':
+                return (
+                  // TODO: ループでradio出力
+                  <React.Fragment>
+                    <input name={form.name} type={form.type} value="M" />男
+                    <input name={form.name} type={form.type} value="F" />女
+                  </React.Fragment>
+                )
+              default:
+                return (
+                  <div>
+                    {form.type}<br />
+                    {form.name}
+                  </div>
+                )
+            }
+          })}
+        </div>
       </div>
     );
   }
