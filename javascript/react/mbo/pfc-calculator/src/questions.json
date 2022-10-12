@@ -31,12 +31,14 @@
     "forms": [
       {
         "name": "weight",
-        "type": "input",
+        "column": "体重",
+        "type": "number",
         "suffix": "kg"
       },
       {
         "name": "fatPercentage",
-        "type": "input",
+        "column": "体脂肪率",
+        "type": "number",
         "suffix": "%"
       }
     ]

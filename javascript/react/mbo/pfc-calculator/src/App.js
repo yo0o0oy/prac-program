@@ -9,19 +9,43 @@ class Question extends React.Component {
 
   render() {
     const question = questions[this.props.no - 1];
+    const handleChange = (ev) => {
+      console.log(ev)
+    };
+
     return (
       <div className="question">
         <div className="q">{question.question}</div>
         <div className="a">
-          {question.forms.map((form) => {
+          {question.forms.map((form, i) => {
             switch (form.type) {
               case 'radio':
+                const items = Array.isArray(form.items) ? form.items : [];
                 return (
                   // TODO: ループでradio出力
-                  <React.Fragment>
-                    <input name={form.name} type={form.type} value="M" />男
-                    <input name={form.name} type={form.type} value="F" />女
+                  <React.Fragment key={i}>
+                    {items.map((item, i2) => {
+                      return (
+                        <label key={i2}>
+                          <input
+                            name={form.name}
+                            type={form.type}
+                            value={item.value}
+                            onChange={handleChange}
+                            checked={false}
+                          />
+                          {item.label.text}
+                        </label>
+                      )
+                    })}
                   </React.Fragment>
+                )
+              case 'number':
+                return (
+                  <dl>
+                    <dt>{form.column}</dt>
+                    <dd><input name={form.name} type={form.type} />{form.suffix}</dd>
+                  </dl>
                 )
               default:
                 return (
@@ -38,6 +62,13 @@ class Question extends React.Component {
   }
 }
 
+class NextButton extends React.Component {
+  render() {
+    return (
+      <button onClick={this.props.onClick}>次へ</button>
+    )
+  }
+}
 class Result extends React.Component {
   constructor(props) {
     super(props)
@@ -111,14 +142,25 @@ class App extends React.Component {
       weight: 50,
       fatPercentage: 25,
       no: 1,
+      isShowResult: false,
     };
   }
 
-  handleSubmit(ev) {
+  onClickNext = () => {
+    // FIXME:
+    const no = this.state.no + 1;
+    let isShowResult = false
+    if (no === questions.length + 1) {
+      isShowResult = true
+    }
+    this.setState({ no, isShowResult })
+  }
+
+  handleSubmit = (ev) => {
     console.log(ev)
   }
 
-  handleChange(ev) {
+  handleChange = (ev) => {
     console.log(ev)
   }
 
@@ -127,7 +169,8 @@ class App extends React.Component {
       <div className="App">
         <h2>PFC CALCULATOR</h2>
         <Question no={this.state.no}></Question>
-        <Result sex={this.state.sex} weight={this.state.weight} fatPercentage={this.state.fatPercentage}></Result>
+        <NextButton onClick={this.onClickNext}></NextButton>
+        {this.state.isShowResult && <Result sex={this.state.sex} weight={this.state.weight} fatPercentage={this.state.fatPercentage}></Result>}
       </div>
     );
   }
