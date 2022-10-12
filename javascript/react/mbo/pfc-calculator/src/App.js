@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo } from 'react'
 import questions from "./questions.json" assert { type: "json" }
-import './App.css';
+import './App.css'
 
 class Question extends React.Component {
   constructor(props) {
@@ -8,10 +8,10 @@ class Question extends React.Component {
   }
 
   render() {
-    const question = questions[this.props.no - 1];
+    const question = questions[this.props.no - 1]
     const handleChange = (ev) => {
       console.log(ev)
-    };
+    }
 
     return (
       <div className="question">
@@ -20,7 +20,7 @@ class Question extends React.Component {
           {question.forms.map((form, i) => {
             switch (form.type) {
               case 'radio':
-                const items = Array.isArray(form.items) ? form.items : [];
+                const items = Array.isArray(form.items) ? form.items : []
                 return (
                   // TODO: ループでradio出力
                   <React.Fragment key={i}>
@@ -58,14 +58,16 @@ class Question extends React.Component {
           })}
         </div>
       </div>
-    );
+    )
   }
 }
 
 class NextButton extends React.Component {
+
   render() {
+    const btnText = this.props.no >= questions.length ? '計算結果へ' : '次へ'
     return (
-      <button onClick={this.props.onClick}>次へ</button>
+      <button onClick={this.props.onClick}>{btnText}</button>
     )
   }
 }
@@ -75,12 +77,12 @@ class Result extends React.Component {
   }
 
   render() {
-    const sexName = this.props.sex === 'F' ? '女' : '男';
-    const weight = this.props.weight;
-    const fatPercentage = this.props.fatPercentage;
-    const leanBodyMass = () => Math.round(weight * (1 - fatPercentage / 100)); // 徐脂肪体重
-    const bm = () => leanBodyMass() * 40; // 基礎代謝
-    const intakeKcal = () => bm() - 300; // 目標摂取カロリー
+    const sexName = this.props.sex === 'F' ? '女' : '男'
+    const weight = this.props.weight
+    const fatPercentage = this.props.fatPercentage
+    const leanBodyMass = () => Math.round(weight * (1 - fatPercentage / 100)) // 徐脂肪体重
+    const bm = () => leanBodyMass() * 40 // 基礎代謝
+    const intakeKcal = () => bm() - 300 // 目標摂取カロリー
     const pfcTable = () => {
       const pg = weight * 2
       const pkcal = pg * 4
@@ -130,7 +132,7 @@ class Result extends React.Component {
         </ul>
         {pfcTable()}
       </div>
-    );
+    )
   }
 }
 
@@ -143,17 +145,15 @@ class App extends React.Component {
       fatPercentage: 25,
       no: 1,
       isShowResult: false,
-    };
+    }
   }
 
   onClickNext = () => {
-    // FIXME:
-    const no = this.state.no + 1;
-    let isShowResult = false
-    if (no === questions.length + 1) {
-      isShowResult = true
+    if (this.state.no >= questions.length) {
+      this.setState({ isShowResult: true })
+      return
     }
-    this.setState({ no, isShowResult })
+    this.setState({ no: this.state.no + 1 })
   }
 
   handleSubmit = (ev) => {
@@ -168,12 +168,14 @@ class App extends React.Component {
     return (
       <div className="App">
         <h2>PFC CALCULATOR</h2>
-        <Question no={this.state.no}></Question>
-        <NextButton onClick={this.onClickNext}></NextButton>
+        {!this.state.isShowResult && <React.Fragment>
+          <Question no={this.state.no}></Question>
+          <NextButton no={this.state.no} onClick={this.onClickNext}></NextButton>
+        </React.Fragment>}
         {this.state.isShowResult && <Result sex={this.state.sex} weight={this.state.weight} fatPercentage={this.state.fatPercentage}></Result>}
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
