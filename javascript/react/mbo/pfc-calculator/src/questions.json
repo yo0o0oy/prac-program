@@ -10,14 +10,14 @@
           {
             "label": {
               "text": "男",
-              "img": ""
+              "img": "/images/body-m1.png"
             },
             "value": "M"
           },
           {
             "label": {
               "text": "女",
-              "img": ""
+              "img": "/images/body-m1.png"
             },
             "value": "F"
           }
@@ -45,52 +45,53 @@
   },
   {
     "no": 3,
-    "question": "なりたい体を選択してください",
+    "question": "なりたい体脂肪率を選択してください",
+    "formKey": "sex",
     "forms": [
       {
-        "name": "sex",
+        "name": "goal",
         "type": "radio",
         "items": {
           "M": [
             {
               "label": {
                 "text": "約3%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 3
             },
             {
               "label": {
                 "text": "約6%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 6
             },
             {
               "label": {
                 "text": "約9%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 9
             },
             {
               "label": {
                 "text": "約14%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 14
             },
             {
               "label": {
                 "text": "約20%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 20
             },
             {
               "label": {
                 "text": "約30%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 30
             }
@@ -99,42 +100,42 @@
             {
               "label": {
                 "text": "約10%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 10
             },
             {
               "label": {
                 "text": "約14%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 14
             },
             {
               "label": {
                 "text": "約17%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 17
             },
             {
               "label": {
                 "text": "約20%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 20
             },
             {
               "label": {
                 "text": "約25%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 25
             },
             {
               "label": {
                 "text": "約30%",
-                "img": ""
+                "img": "/images/body-m1.png"
               },
               "value": 30
             }

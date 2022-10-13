@@ -20,7 +20,7 @@ class Question extends React.Component {
           {question.forms.map((form, i) => {
             switch (form.type) {
               case 'radio':
-                const items = Array.isArray(form.items) ? form.items : []
+                const items = Array.isArray(form.items) ? form.items : form.items[this.props[question.formKey]]
                 return (
                   // TODO: ループでradio出力
                   <React.Fragment key={i}>
@@ -34,6 +34,7 @@ class Question extends React.Component {
                             onChange={handleChange}
                             checked={false}
                           />
+                          <img src={item.label.img} />
                           {item.label.text}
                         </label>
                       )
@@ -57,6 +58,7 @@ class Question extends React.Component {
             }
           })}
         </div>
+        <NextButton no={this.props.no} onClick={this.props.onClick}></NextButton>
       </div>
     )
   }
@@ -131,6 +133,7 @@ class Result extends React.Component {
           <li>目標：{intakeKcal()}kcal</li>
         </ul>
         {pfcTable()}
+        <button onClick={this.props.onReset}>もう一度計算する</button>
       </div>
     )
   }
@@ -140,12 +143,22 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      sex: 'F',
-      weight: 50,
-      fatPercentage: 25,
+      sex: 'M',
+      weight: 0,
+      fatPercentage: 0,
       no: 1,
       isShowResult: false,
     }
+  }
+
+  initState = () => {
+    this.setState({
+      sex: '',
+      weight: 0,
+      fatPercentage: 0,
+      no: 1,
+      isShowResult: false,
+    })
   }
 
   onClickNext = () => {
@@ -154,6 +167,10 @@ class App extends React.Component {
       return
     }
     this.setState({ no: this.state.no + 1 })
+  }
+
+  onReset = () => {
+    this.initState()
   }
 
   handleSubmit = (ev) => {
@@ -168,11 +185,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <h2>PFC CALCULATOR</h2>
-        {!this.state.isShowResult && <React.Fragment>
-          <Question no={this.state.no}></Question>
-          <NextButton no={this.state.no} onClick={this.onClickNext}></NextButton>
-        </React.Fragment>}
-        {this.state.isShowResult && <Result sex={this.state.sex} weight={this.state.weight} fatPercentage={this.state.fatPercentage}></Result>}
+        {!this.state.isShowResult && <Question no={this.state.no} sex={this.state.sex} onClick={this.onClickNext}></Question>}
+        {this.state.isShowResult && <Result sex={this.state.sex} weight={this.state.weight} fatPercentage={this.state.fatPercentage} onReset={this.onReset}></Result>}
       </div>
     )
   }
