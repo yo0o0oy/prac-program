@@ -2,86 +2,71 @@ import React, { useMemo } from 'react'
 import questions from "./questions.json" assert { type: "json" }
 import './App.css'
 
-class Question extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props)
-  }
-
-  render() {
-    const question = questions[this.props.no - 1]
-    const handleChange = (ev) => {
-      console.log(ev)
+      this.state = {
+      sex: 'M',
+      weight: 0,
+      fatPercentage: 0,
+      no: 1,
+      isShowResult: true,
+      isShowApp: false,
+      isShowContents: true,
     }
-
-    return (
-      <div className="question">
-        <div className="q">{question.question}</div>
-        <div className="a">
-          {question.forms.map((form, i) => {
-            switch (form.type) {
-              case 'radio':
-                const items = Array.isArray(form.items) ? form.items : form.items[this.props[question.formKey]]
-                return (
-                  // TODO: ループでradio出力
-                  <React.Fragment key={i}>
-                    {items.map((item, i2) => {
-                      return (
-                        <label key={i2}>
-                          <input
-                            name={form.name}
-                            type={form.type}
-                            value={item.value}
-                            onChange={handleChange}
-                            checked={false}
-                          />
-                          <img src={item.label.img} />
-                          {item.label.text}
-                        </label>
-                      )
-                    })}
-                  </React.Fragment>
-                )
-              case 'number':
-                return (
-                  <dl>
-                    <dt>{form.column}</dt>
-                    <dd><input name={form.name} type={form.type} />{form.suffix}</dd>
-                  </dl>
-                )
-              default:
-                return (
-                  <div>
-                    {form.type}<br />
-                    {form.name}
-                  </div>
-                )
-            }
-          })}
-        </div>
-        <NextButton no={this.props.no} onClick={this.props.onClick}></NextButton>
-      </div>
-    )
   }
-}
-
-class NextButton extends React.Component {
-
-  render() {
-    const btnText = this.props.no >= questions.length ? '計算結果へ' : '次へ'
-    return (
-      <button onClick={this.props.onClick}>{btnText}</button>
-    )
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ isShowApp: true })
+    }, 500)
   }
-}
-class Result extends React.Component {
-  constructor(props) {
-    super(props)
+
+  initState = () => {
+    this.setState({
+      sex: '',
+      weight: 0,
+      fatPercentage: 0,
+      no: 1,
+      isShowResult: false,
+      isShowApp: false,
+      isShowContents: true,
+    })
+  }
+
+  onClickNext = () => {
+    this.setState({ isShowContents: false })
+    const no = this.state.no + 1
+    const isShowResult = false
+    if (this.state.no >= questions.length) {
+      no  = no - 1
+      isShowResult = true
+    }
+    setTimeout(() => {
+      this.setState({ no, isShowResult, isShowContents: true })
+    }, 500)
+  }
+
+  onReset = () => {
+    this.initState()
+  }
+
+  handleSubmit = (ev) => {
+    console.log(ev)
+  }
+
+  handleChange = (ev) => {
+    console.log(ev)
   }
 
   render() {
-    const sexName = this.props.sex === 'F' ? '女' : '男'
-    const weight = this.props.weight
-    const fatPercentage = this.props.fatPercentage
+    // question用
+    const question = questions[this.state.no - 1]
+    // button-next用
+    const btnText = this.state.no >= questions.length ? '計算結果へ' : '次へ'
+    // result用
+    const sexName = this.state.sex === 'F' ? '女' : '男'
+    const weight = this.state.weight
+    const fatPercentage = this.state.fatPercentage
     const leanBodyMass = () => Math.round(weight * (1 - fatPercentage / 100)) // 徐脂肪体重
     const bm = () => leanBodyMass() * 40 // 基礎代謝
     const intakeKcal = () => bm() - 300 // 目標摂取カロリー
@@ -123,70 +108,78 @@ class Result extends React.Component {
     }
 
     return (
-      <div className="result">
-        <ul>
-          <li>性別：{sexName}</li>
-          <li>体重：{weight}kg</li>
-          <li>体脂肪率：{fatPercentage}%</li>
-          <li>徐脂肪体重：{leanBodyMass()}kg</li>
-          <li>基礎代謝：{bm()}kcal</li>
-          <li>目標：{intakeKcal()}kcal</li>
-        </ul>
-        {pfcTable()}
-        <button onClick={this.props.onReset}>もう一度計算する</button>
-      </div>
-    )
-  }
-}
-
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      sex: 'M',
-      weight: 0,
-      fatPercentage: 0,
-      no: 1,
-      isShowResult: false,
-    }
-  }
-
-  initState = () => {
-    this.setState({
-      sex: '',
-      weight: 0,
-      fatPercentage: 0,
-      no: 1,
-      isShowResult: false,
-    })
-  }
-
-  onClickNext = () => {
-    if (this.state.no >= questions.length) {
-      this.setState({ isShowResult: true })
-      return
-    }
-    this.setState({ no: this.state.no + 1 })
-  }
-
-  onReset = () => {
-    this.initState()
-  }
-
-  handleSubmit = (ev) => {
-    console.log(ev)
-  }
-
-  handleChange = (ev) => {
-    console.log(ev)
-  }
-
-  render() {
-    return (
-      <div className="App">
+      <div className={`App ${this.state.isShowApp ? 'show' : ''}`}>
         <h2>PFC CALCULATOR</h2>
-        {!this.state.isShowResult && <Question no={this.state.no} sex={this.state.sex} onClick={this.onClickNext}></Question>}
-        {this.state.isShowResult && <Result sex={this.state.sex} weight={this.state.weight} fatPercentage={this.state.fatPercentage} onReset={this.onReset}></Result>}
+        <div className={`contents ${this.state.isShowContents ? 'show' : ''}`}>
+          {!this.state.isShowResult && (
+            <React.Fragment>
+              <div className="question">
+                <div className="q">{question.question}</div>
+                <div className="a">
+                  {question.forms.map((form, i) => {
+                    switch (form.type) {
+                      case 'radio':
+                        const items = Array.isArray(form.items) ? form.items : form.items[this.state[question.formKey]]
+                        const handleChange = (ev) => {
+                          console.log(ev)
+                        }
+                        return (
+                          <React.Fragment key={i}>
+                            {items.map((item, i2) => {
+                              return (
+                                <label key={i2}>
+                                  <input
+                                    name={form.name}
+                                    type={form.type}
+                                    value={item.value}
+                                    onChange={handleChange}
+                                    checked={false}
+                                  />
+                                  <img src={item.label.img} />
+                                  {item.label.text}
+                                </label>
+                              )
+                            })}
+                          </React.Fragment>
+                        )
+                      case 'number':
+                        return (
+                          <dl key={i}>
+                            <dt>{form.column}</dt>
+                            <dd><input name={form.name} type={form.type} />{form.suffix}</dd>
+                          </dl>
+                        )
+                      default:
+                        return (
+                          <div>
+                            {form.type}<br />
+                            {form.name}
+                          </div>
+                        )
+                    }
+                  })}
+                </div>
+              </div>
+              <button className="button-next" onClick={this.onClickNext}>{btnText}</button>
+            </React.Fragment>
+          )}
+          {this.state.isShowResult && (
+            <div className="result">
+              <ul>
+                <li>性別：{sexName}</li>
+                <li>体重：{weight}kg</li>
+                <li>体脂肪率：{fatPercentage}%</li>
+                <li>徐脂肪体重：{leanBodyMass()}kg</li>
+                <li>基礎代謝：{bm()}kcal</li>
+                <li>目標：{intakeKcal()}kcal</li>
+              </ul>
+              {pfcTable()}
+              <button onClick={this.onReset}>もう一度計算する</button>
+            </div>
+          )}
+        </div>
+        {/* {!this.state.isShowResult && <Question no={this.state.no} values={values} sex={this.state.sex} onClick={this.onClickNext}></Question>}
+        {this.state.isShowResult && <Result sex={this.state.sex} weight={this.state.weight} fatPercentage={this.state.fatPercentage} onReset={this.onReset}></Result>} */}
       </div>
     )
   }

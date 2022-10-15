@@ -3,6 +3,24 @@
   width: 90%;
   margin: 0 auto;
   text-align: center;
+  transition: 1s;
+  transform: translateY(20px);
+  opacity: 0;
+}
+.App.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.App .contents {
+  transition: 1s;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.App .contents.show {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 .App ul {
