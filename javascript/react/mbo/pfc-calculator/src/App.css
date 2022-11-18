@@ -1,7 +1,8 @@
 :root {
   --color-main: #9FC6CE;
-  --color-accent1: #AA2121;
-  --color-accent2: #2977B1;
+  --color-accent: #AA2121;
+  --color-btn-primary: #2977B1;
+  --color-btn-secondary: #ABABAB;
   --color-font: #2C2C2C;
 }
 /* TODO: stylus入れたい */
@@ -68,7 +69,9 @@
   height: 55px;
   background-color: yellow;
 }
-
+.css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+  border-radius: 30px;
+}
 /* .App ul {
   padding: 0;
 }

@@ -21,10 +21,7 @@ class App extends React.Component {
         <div className="contents">
           <CaStepper></CaStepper>
           <Question></Question>
-          <ButtonGroup variant="contained" aria-label="outlined primary button group">
-            <Button variant="outlined">前へ</Button>
-            <Button>次へ</Button>
-          </ButtonGroup>
+          <CmButtonGroup></CmButtonGroup>
         </div>
       </div>
     )
@@ -67,9 +64,14 @@ class Question extends React.Component {
     return <div className="question">question</div>
   }
 }
-class Buttons extends React.Component {
+class CmButtonGroup extends React.Component {
   render() {
-    return <div className="buttons">buttons</div>
+    return (
+      <div className="buttons">
+        <Button variant="contained" color="secondary">前へ</Button>
+        <Button variant="contained" color="primary">次へ</Button>
+      </div>
+    )
   }
 }
 export default App
