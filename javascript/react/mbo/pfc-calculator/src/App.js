@@ -1,12 +1,10 @@
 import React from 'react'
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { Box, Button, Stepper, Step, StepLabel, Grid } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme.js'
+import sx from './sx.js'
+import './font.css';
 // import questions from "./questions.json" assert { type: "json" }
-
-import './App.css'
 
 class App extends React.Component {
   constructor(props) {
@@ -17,24 +15,67 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="App show">
-        <div className="contents">
-          <CaStepper></CaStepper>
-          <Question></Question>
-          <CmButtonGroup></CmButtonGroup>
-        </div>
-      </div>
+      <ThemeProvider theme={theme}>
+        <Box
+          className="App yu-gothic"
+          bgcolor="background.main"
+          sx={sx.app}
+        >
+          <Grid
+            className="contents"
+            container
+            display="flex"
+            direction="column"
+            justifyContent="space-between"
+            alignItems="center"
+            bgcolor="background.paper"
+            sx={sx.contents}
+          >
+            <CaStepper></CaStepper>
+            <CmQuestion></CmQuestion>
+            <CmButtonGroup></CmButtonGroup>
+          </Grid>
+          <Grid
+            className="contents top"
+            container
+            display="flex"
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            bgcolor="transparent"
+            sx={sx.contents}
+          >
+            <Start></Start>
+          </Grid>
+        </Box>
+    </ThemeProvider>
     )
   }
 }
 
 class Start extends React.Component {
+  onClick = () => {
+    alert('click!')
+  }
   render() {
     return (
-      <div>
-        <h1>PFC CALCULATOR</h1>
-        <button onClick={alert('click!')}>はじめる</button>
-      </div>
+      <Grid
+        container
+        display="flex"
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <h1 className="hind">PFC CALCULATOR</h1>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={sx.button}
+          onClick={this.onClick}
+        >
+          はじめる
+        </Button>
+     </Grid>
     )
   }
 }
@@ -47,19 +88,21 @@ class CaStepper extends React.Component {
       '計算結果を表示',
     ];
     return (
-      <div className="stepper">
-        <Stepper activeStep={1} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-      </div>
+      <Stepper
+        activeStep={1}
+        alternativeLabel
+        sx={{ width: 1 }}
+      >
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
     )
   }
 }
-class Question extends React.Component {
+class CmQuestion extends React.Component {
   render() {
     return <div className="question">question</div>
   }
@@ -67,10 +110,17 @@ class Question extends React.Component {
 class CmButtonGroup extends React.Component {
   render() {
     return (
-      <div className="buttons">
-        <Button variant="contained" color="secondary">前へ</Button>
-        <Button variant="contained" color="primary">次へ</Button>
-      </div>
+      <Grid
+        className="buttons"
+        container
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        sx={{ gap: 7 }}
+      >
+        <Button variant="contained" color="secondary" sx={sx.button}>前へ</Button>
+        <Button variant="contained" color="primary" sx={sx.button}>計算結果へ</Button>
+      </Grid>
     )
   }
 }
