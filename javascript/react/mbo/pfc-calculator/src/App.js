@@ -1,16 +1,24 @@
 import React from 'react'
-import { Box, Button, Stepper, Step, StepLabel, Grid } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
+import { Box, Button, Stepper, Step, StepLabel, Grid, TextField } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles'
 import theme from './theme.js'
 import sx from './sx.js'
-import './font.css';
+import './font.css'
 // import questions from "./questions.json" assert { type: "json" }
+
+const containerProps = {
+  display: 'flex',
+  direction: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 1,
+      step: 2,
     }
   }
   render() {
@@ -24,26 +32,21 @@ class App extends React.Component {
           <Grid
             className="contents"
             container
-            display="flex"
-            direction="column"
-            justifyContent="space-between"
-            alignItems="center"
+            { ...containerProps }
             bgcolor="background.paper"
+            justifyContent="space-between"
             sx={sx.contents}
           >
-            <CaStepper></CaStepper>
-            <CmQuestion></CmQuestion>
+            <CaStepper step={this.state.step}></CaStepper>
+            <CmQuestion step={this.state.step}></CmQuestion>
             <CmButtonGroup></CmButtonGroup>
           </Grid>
           <Grid
             className="contents top"
             container
-            display="flex"
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
             bgcolor="transparent"
             sx={sx.contents}
+            { ...containerProps }
           >
             <Start></Start>
           </Grid>
@@ -61,10 +64,7 @@ class Start extends React.Component {
     return (
       <Grid
         container
-        display="flex"
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
+        { ...containerProps }
       >
         <h1 className="hind">PFC CALCULATOR</h1>
         <Button
@@ -89,7 +89,7 @@ class CaStepper extends React.Component {
     ];
     return (
       <Stepper
-        activeStep={1}
+        activeStep={this.props.step}
         alternativeLabel
         sx={{ width: 1 }}
       >
@@ -104,7 +104,31 @@ class CaStepper extends React.Component {
 }
 class CmQuestion extends React.Component {
   render() {
-    return <div className="question">question</div>
+    return (
+      <Grid
+        container
+        { ...containerProps }
+        sx={{ gap: 4 }}
+      >
+        <h3>身長・体脂肪を入力してください</h3>
+        <Grid
+          { ...containerProps }
+          sx={{ gap: 1 }}
+          direction="row"
+        >
+          <TextField label="身長" variant="outlined" ></TextField>
+          <span sx={{ width: 40 }}>cm</span>
+        </Grid>
+        <Grid
+          { ...containerProps }
+          sx={{ gap: 1 }}
+          direction="row"
+        >
+          <TextField label="体脂肪" variant="outlined" ></TextField>
+          <span sx={{ width: 40 }}>%</span>
+        </Grid>
+      </Grid>
+    )
   }
 }
 class CmButtonGroup extends React.Component {
@@ -113,9 +137,8 @@ class CmButtonGroup extends React.Component {
       <Grid
         className="buttons"
         container
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
+        { ...containerProps }
+        direction="row"
         sx={{ gap: 7 }}
       >
         <Button variant="contained" color="secondary" sx={sx.button}>前へ</Button>
