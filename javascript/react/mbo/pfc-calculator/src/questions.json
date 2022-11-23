@@ -1,7 +1,7 @@
 [
   {
     "no": 1,
-    "question": "性別を選択してください",
+    "question": "性別を選択",
     "forms": [
       {
         "name": "sex",
@@ -27,7 +27,7 @@
   },
   {
     "no": 2,
-    "question": "体重と体脂肪を入力してください",
+    "question": "体重と体脂肪率を入力",
     "forms": [
       {
         "name": "weight",
@@ -45,7 +45,7 @@
   },
   {
     "no": 3,
-    "question": "なりたい体脂肪率を選択してください",
+    "question": "理想の体脂肪率を選択",
     "formKey": "sex",
     "forms": [
       {

@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import theme from './theme.js'
 import sx from './sx.js'
 import './font.css'
-// import questions from "./questions.json" assert { type: "json" }
+import questions from "./questions.json" assert { type: "json" }
 
 const containerProps = {
   display: 'flex',
@@ -12,7 +12,6 @@ const containerProps = {
   justifyContent: 'center',
   alignItems: 'center',
 }
-
 
 class App extends React.Component {
   constructor(props) {
@@ -34,6 +33,10 @@ class App extends React.Component {
     this.setState({ step: step + 1 })
   }
 
+  onRetry = () => {
+    this.setState({ step: 0 })
+  }
+
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -42,10 +45,11 @@ class App extends React.Component {
           bgcolor="background.main"
           sx={sx.app}
         >
-          <Contents
+          <CoContents
             step={this.state.step}
             onPrev={this.onPrev}
             onNext={this.onNext}
+            onRetry={this.onRetry}
           />
         </Box>
       </ThemeProvider>
@@ -53,7 +57,7 @@ class App extends React.Component {
   }
 }
 
-function Contents(props) {
+function CoContents(props) {
   const step =  props.step
   if (step === 0) {
     return (
@@ -64,7 +68,7 @@ function Contents(props) {
         sx={sx.contents}
         { ...containerProps }
       >
-        <Start onNext={props.onNext}/>
+        <CoStart onNext={props.onNext}/>
       </Grid>
     )
   }
@@ -77,17 +81,21 @@ function Contents(props) {
       justifyContent="space-between"
       sx={sx.contents}
     >
-      <CaStepper step={step} />
-      <CmQuestion step={step} />
-      <CmButtonGroup step={step} onPrev={props.onPrev} onNext={props.onNext} />
+      {step === 4 && <CoResult onRetry={props.onRetry} />}
+      {step !== 4 && <React.Fragment>
+        <CaStepper step={step} />
+        <CmQuestion step={step} />
+        <CmButtonGroup
+          step={step}
+          onPrev={props.onPrev}
+          onNext={props.onNext}
+        />
+      </React.Fragment>}
     </Grid>
   )
 }
 
-class Start extends React.Component {
-  onClick = () => {
-    alert('click!')
-  }
+class CoStart extends React.Component {
   render() {
     return (
       <Grid
@@ -107,38 +115,17 @@ class Start extends React.Component {
     )
   }
 }
-class CaStepper extends React.Component {
-  render() {
-    const steps = [
-      '性別を選択',
-      '体重・体脂肪率を入力',
-      '理想の体脂肪率を選択',
-      '計算結果を表示',
-    ];
-    return (
-      <Stepper
-        activeStep={this.props.step - 1}
-        alternativeLabel
-        sx={{ width: 1 }}
-      >
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-    )
-  }
-}
+
 class CmQuestion extends React.Component {
   render() {
+    const question = questions[this.props.step - 1].question + 'してください'
     return (
       <Grid
         container
         { ...containerProps }
         sx={{ gap: 4 }}
       >
-        <h3>身長・体脂肪率を入力してください</h3>
+        <h3>{question}</h3>
         <Grid
           container
           { ...containerProps }
@@ -161,9 +148,30 @@ class CmQuestion extends React.Component {
     )
   }
 }
+
+class CaStepper extends React.Component {
+  render() {
+    const steps = questions.map((q) => q.question)
+    steps.push('計算結果を表示')
+    return (
+      <Stepper
+        activeStep={this.props.step - 1}
+        alternativeLabel
+        sx={{ width: 1 }}
+      >
+        {steps.map((label) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+    )
+  }
+}
+
 class CmButtonGroup extends React.Component {
   render() {
-    const prevText = this.props.step <= 1 ? 'TOPへ戻る' : '前へ'
+    const prevText = this.props.step <= 1 ? 'TOPへ' : '前へ'
     const nextText = this.props.step >= 3 ? '計算結果へ' : '次へ'
 
     return (
@@ -194,4 +202,25 @@ class CmButtonGroup extends React.Component {
     )
   }
 }
+
+class CoResult extends React.Component {
+  render() {
+    return (
+<Grid
+        container
+        { ...containerProps }
+      >
+        <h1 className="hind">計算結果</h1>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={sx.button}
+          onClick={this.props.onRetry}
+        >
+          もう一度
+        </Button>
+     </Grid>    )
+  }
+}
+
 export default App
