@@ -18,9 +18,22 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: 2,
+      step: -1,
     }
   }
+
+  onPrev = () => {
+    let step = this.state.step
+    if (step < 0) step = 0
+    this.setState({ step: step - 1 })
+  }
+
+  onNext = () => {
+    let step = this.state.step
+    if (step > 2) step = 2
+    this.setState({ step: step + 1 })
+  }
+
   render() {
     return (
       <ThemeProvider theme={theme}>
@@ -29,31 +42,46 @@ class App extends React.Component {
           bgcolor="background.main"
           sx={sx.app}
         >
-          <Grid
-            className="contents"
-            container
-            { ...containerProps }
-            bgcolor="background.paper"
-            justifyContent="space-between"
-            sx={sx.contents}
-          >
-            <CaStepper step={this.state.step}></CaStepper>
-            <CmQuestion step={this.state.step}></CmQuestion>
-            <CmButtonGroup></CmButtonGroup>
-          </Grid>
-          <Grid
-            className="contents top"
-            container
-            bgcolor="transparent"
-            sx={sx.contents}
-            { ...containerProps }
-          >
-            <Start></Start>
-          </Grid>
+          <Contents
+            step={this.state.step}
+            onPrev={this.onPrev}
+            onNext={this.onNext}
+          />
         </Box>
-    </ThemeProvider>
+      </ThemeProvider>
     )
   }
+}
+
+function Contents(props) {
+  const step =  props.step
+  if (step === -1) {
+    return (
+      <Grid
+        className="contents top"
+        container
+        bgcolor="transparent"
+        sx={sx.contents}
+        { ...containerProps }
+      >
+        <Start onNext={props.onNext}/>
+      </Grid>
+    )
+  }
+  return (
+    <Grid
+      className="contents"
+      container
+      { ...containerProps }
+      bgcolor="background.paper"
+      justifyContent="space-between"
+      sx={sx.contents}
+    >
+      <CaStepper step={step} />
+      <CmQuestion step={step} />
+      <CmButtonGroup onPrev={props.onPrev} onNext={props.onNext} />
+    </Grid>
+  )
 }
 
 class Start extends React.Component {
@@ -71,7 +99,7 @@ class Start extends React.Component {
           variant="contained"
           color="primary"
           sx={sx.button}
-          onClick={this.onClick}
+          onClick={this.props.onNext}
         >
           はじめる
         </Button>
@@ -83,7 +111,7 @@ class CaStepper extends React.Component {
   render() {
     const steps = [
       '性別を選択',
-      '体重・体脂肪を入力',
+      '体重・体脂肪率を入力',
       '理想の体脂肪率を選択',
       '計算結果を表示',
     ];
@@ -110,21 +138,23 @@ class CmQuestion extends React.Component {
         { ...containerProps }
         sx={{ gap: 4 }}
       >
-        <h3>身長・体脂肪を入力してください</h3>
+        <h3>身長・体脂肪率を入力してください</h3>
         <Grid
+          container
           { ...containerProps }
           sx={{ gap: 1 }}
           direction="row"
         >
-          <TextField label="身長" variant="outlined" ></TextField>
+          <TextField label="身長" variant="outlined" />
           <span sx={{ width: 40 }}>cm</span>
         </Grid>
         <Grid
+          container
           { ...containerProps }
           sx={{ gap: 1 }}
           direction="row"
         >
-          <TextField label="体脂肪" variant="outlined" ></TextField>
+          <TextField label="体脂肪" variant="outlined" />
           <span sx={{ width: 40 }}>%</span>
         </Grid>
       </Grid>
@@ -141,8 +171,22 @@ class CmButtonGroup extends React.Component {
         direction="row"
         sx={{ gap: 7 }}
       >
-        <Button variant="contained" color="secondary" sx={sx.button}>前へ</Button>
-        <Button variant="contained" color="primary" sx={sx.button}>計算結果へ</Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={sx.button}
+          onClick={this.props.onPrev}
+        >
+          前へ
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={sx.button}
+          onClick={this.props.onNext}
+        >
+          次へ
+        </Button>
       </Grid>
     )
   }
