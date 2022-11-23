@@ -1,23 +1,23 @@
 [
   {
     "no": 1,
-    "question": "性別を選択",
-    "forms": [
+    "q": "性別を選択",
+    "fields": [
       {
         "name": "sex",
         "type": "radio",
         "items": [
           {
             "label": {
-              "text": "男",
-              "img": "/images/body-m1.png"
+              "icon": "ManRoundedIcon",
+              "text": "男性"
             },
             "value": "M"
           },
           {
             "label": {
-              "text": "女",
-              "img": "/images/body-m1.png"
+              "icon": "WomanRoundedIcon",
+              "text": "女性"
             },
             "value": "F"
           }
@@ -27,8 +27,8 @@
   },
   {
     "no": 2,
-    "question": "体重と体脂肪率を入力",
-    "forms": [
+    "q": "体重と体脂肪率を入力",
+    "fields": [
       {
         "name": "weight",
         "column": "体重",
@@ -45,9 +45,9 @@
   },
   {
     "no": 3,
-    "question": "理想の体脂肪率を選択",
-    "formKey": "sex",
-    "forms": [
+    "q": "理想の体脂肪率を選択",
+    "key": "sex",
+    "fields": [
       {
         "name": "goal",
         "type": "radio",
@@ -100,42 +100,42 @@
             {
               "label": {
                 "text": "約10%",
-                "img": "/images/body-m1.png"
+                "img": "/images/body-f1.png"
               },
               "value": 10
             },
             {
               "label": {
                 "text": "約14%",
-                "img": "/images/body-m1.png"
+                "img": "/images/body-f1.png"
               },
               "value": 14
             },
             {
               "label": {
                 "text": "約17%",
-                "img": "/images/body-m1.png"
+                "img": "/images/body-f1.png"
               },
               "value": 17
             },
             {
               "label": {
                 "text": "約20%",
-                "img": "/images/body-m1.png"
+                "img": "/images/body-f1.png"
               },
               "value": 20
             },
             {
               "label": {
                 "text": "約25%",
-                "img": "/images/body-m1.png"
+                "img": "/images/body-f1.png"
               },
               "value": 25
             },
             {
               "label": {
                 "text": "約30%",
-                "img": "/images/body-m1.png"
+                "img": "/images/body-f1.png"
               },
               "value": 30
             }

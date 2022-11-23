@@ -17,5 +17,6 @@ const theme =  createTheme({
       reverse: '#FFFFFF'
     },
   },
+  spacing: 5,
 })
 export default theme
