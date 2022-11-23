@@ -39,7 +39,7 @@
         "name": "fatPercentage",
         "column": "体脂肪率",
         "type": "number",
-        "suffix": "%"
+        "suffix": "％"
       }
     ]
   },

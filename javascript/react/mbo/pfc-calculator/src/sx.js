@@ -2,7 +2,7 @@ const sx = {
   app: {
     width: 1,
     height: '100vh',
-    p: 5,
+    p: 8,
     color: 'text.primary',
     fontSize: '20px',
     boxSizing: 'border-box',
@@ -10,7 +10,7 @@ const sx = {
   contents: {
     height: '100%',
     borderRadius: 5,
-    p: 5,
+    p: 8,
     boxSizing: 'border-box',
   },
   button: {
