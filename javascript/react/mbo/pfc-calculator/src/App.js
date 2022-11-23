@@ -27,74 +27,56 @@ function App() {
   )
 }
 
-class CoContents extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      step: 0,
-      values: {
-        sex: 'F',
-      },
-    }
+function CoContents() {
+  const [step, setStep] = React.useState(0);
+  const [values, setValues] = React.useState({ sex: 'F' });
+
+  const handlePrev = () => {
+    setStep(step <= 0 ? 0 : step - 1)
   }
 
-  handlePrev = () => {
-    let step = this.state.step
-    if (step < 1) step = 1
-    this.setState({ step: step - 1 })
+  const handleNext = () => {
+    setStep(step >= 4 ? 4 : step + 1)
   }
 
-  handleNext = () => {
-    let step = this.state.step
-    if (step > 3) step = 3
-    this.setState({ step: step + 1 })
+  const handleRetry = () => {
+    setStep(0)
   }
 
-  handleRetry = () => {
-    this.setState({ step: 0 })
-  }
-
-  setValue = () => {
-    this.setState({})
-  }
-
-  render() {
-    const step =  this.state.step
-    if (step === 0) {
-      return (
-        <Stack
-          className="contents top"
-          bgcolor="transparent"
-          sx={sx.contents}
-          { ...flexBoxProps }
-        >
-          <CoStart handleNext={this.handleNext}/>
-        </Stack>
-      )
-    }
+  if (step === 0) {
     return (
       <Stack
-        className="contents"
-          { ...flexBoxProps }
-        bgcolor="background.paper"
-        justifyContent="space-between"
+        className="contents top"
+        bgcolor="transparent"
         sx={sx.contents}
+        { ...flexBoxProps }
       >
-        {step === 4 && <CoResult handleRetry={this.handleRetry} />}
-        {step !== 4 &&
-          <React.Fragment>
-            <CaStepper step={step} />
-            <CmQuestion step={step} values={this.state.values} />
-            <CmButtonGroup
-              step={step}
-              handlePrev={this.handlePrev}
-              handleNext={this.handleNext}
-            />
-          </React.Fragment>
-        }
+        <CoStart handleNext={handleNext}/>
       </Stack>
     )
   }
+  return (
+    <Stack
+      className="contents"
+        { ...flexBoxProps }
+      bgcolor="background.paper"
+      justifyContent="space-between"
+      sx={sx.contents}
+    >
+      {step === 4 && <CoResult handleRetry={handleRetry} />}
+      {step !== 4 &&
+        <React.Fragment>
+          <CaStepper step={step} />
+          <CmQuestion step={step} values={values} />
+          <CmButtonGroup
+            step={step}
+            handlePrev={handlePrev}
+            handleNext={handleNext}
+          />
+        </React.Fragment>
+      }
+    </Stack>
+  )
 }
 
 function CoStart(props) {
