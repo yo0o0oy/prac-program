@@ -79,7 +79,7 @@ function Contents(props) {
     >
       <CaStepper step={step} />
       <CmQuestion step={step} />
-      <CmButtonGroup onPrev={props.onPrev} onNext={props.onNext} />
+      <CmButtonGroup step={step} onPrev={props.onPrev} onNext={props.onNext} />
     </Grid>
   )
 }
@@ -163,6 +163,9 @@ class CmQuestion extends React.Component {
 }
 class CmButtonGroup extends React.Component {
   render() {
+    const prevText = this.props.step <= 1 ? 'TOPへ戻る' : '前へ'
+    const nextText = this.props.step >= 3 ? '計算結果へ' : '次へ'
+
     return (
       <Grid
         className="buttons"
@@ -177,7 +180,7 @@ class CmButtonGroup extends React.Component {
           sx={sx.button}
           onClick={this.props.onPrev}
         >
-          前へ
+          {prevText}
         </Button>
         <Button
           variant="contained"
@@ -185,7 +188,7 @@ class CmButtonGroup extends React.Component {
           sx={sx.button}
           onClick={this.props.onNext}
         >
-          次へ
+          {nextText}
         </Button>
       </Grid>
     )
