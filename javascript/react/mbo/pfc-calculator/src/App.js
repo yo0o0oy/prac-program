@@ -18,19 +18,19 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      step: -1,
+      step: 0,
     }
   }
 
   onPrev = () => {
     let step = this.state.step
-    if (step < 0) step = 0
+    if (step < 1) step = 1
     this.setState({ step: step - 1 })
   }
 
   onNext = () => {
     let step = this.state.step
-    if (step > 2) step = 2
+    if (step > 3) step = 3
     this.setState({ step: step + 1 })
   }
 
@@ -55,7 +55,7 @@ class App extends React.Component {
 
 function Contents(props) {
   const step =  props.step
-  if (step === -1) {
+  if (step === 0) {
     return (
       <Grid
         className="contents top"
@@ -117,7 +117,7 @@ class CaStepper extends React.Component {
     ];
     return (
       <Stepper
-        activeStep={this.props.step}
+        activeStep={this.props.step - 1}
         alternativeLabel
         sx={{ width: 1 }}
       >
@@ -154,7 +154,7 @@ class CmQuestion extends React.Component {
           sx={{ gap: 1 }}
           direction="row"
         >
-          <TextField label="体脂肪" variant="outlined" />
+          <TextField label="体脂肪率" variant="outlined" />
           <span sx={{ width: 40 }}>%</span>
         </Grid>
       </Grid>
