@@ -22,5 +22,15 @@ const sx = {
     boxShadow: 0,
     transition: '0.3s'
   },
+  tooltip: {
+    backgroundColor: '#AA2121',
+    color: '#fff',
+    fontSize: 18,
+    paddingX: 6,
+    py: 2,
+    fontFamily: "'Hind', sans-serif",
+    fontWeight: 'bold',
+    transform: 'rotetate(-15deg)'
+  }
 }
 export default sx

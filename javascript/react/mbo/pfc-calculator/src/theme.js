@@ -16,6 +16,10 @@ const theme =  createTheme({
       primary: '#555555',
       reverse: '#FFFFFF'
     },
+    common: {
+      white: '#FFFFFF',
+      red: '#AA2121',
+    },
   },
   spacing: 5,
 })

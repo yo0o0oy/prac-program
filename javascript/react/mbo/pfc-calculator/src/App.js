@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Box, Button, Stepper, Step, StepLabel, Grid, Stack, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles'
+import { Box, Button, Stepper, Step, StepLabel, Grid, Stack, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material'
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
+import { ThemeProvider, styled } from '@mui/material/styles'
 import { ManRounded, WomanRounded } from '@mui/icons-material'
 import theme from './theme.js'
 import sx from './sx.js'
@@ -14,6 +15,14 @@ const flexBoxProps = {
   alignItems: 'center',
   spacing: 4,
 }
+const RedTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} className="hind" classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: sx.tooltip,
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.red,
+  },
+}));
 
 const App = () => {
   return (
@@ -93,14 +102,16 @@ const CoStart = props => {
   return (
     <Stack { ...flexBoxProps }>
       <h1 className="hind">PFC CALCULATOR</h1>
-      <Button
-        variant="contained"
-        color="primary"
-        sx={sx.button}
-        onClick={props.handleNext}
-      >
-        はじめる
-      </Button>
+      <RedTooltip placement="top" arrow title="click to start!">
+        <Button
+          variant="contained"
+          color="primary"
+          sx={sx.button}
+          onClick={props.handleNext}
+        >
+          はじめる
+        </Button>
+      </RedTooltip>
     </Stack>
   )
 }
