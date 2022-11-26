@@ -36,7 +36,6 @@ const CoContents = () => {
   }
 
   const handleNext = () => {
-    // TODO: 入力された値をセット
     setStep(step >= 4 ? 4 : step + 1)
   }
 
@@ -45,9 +44,6 @@ const CoContents = () => {
   }
 
   const handleChange = (newValue) => {
-    // FIXME: エラー修正
-    console.log('newValue')
-    console.log(newValue)
     setValues({...values, ...newValue})
   }
 
@@ -78,7 +74,7 @@ const CoContents = () => {
           <CmQuestion
             step={step}
             values={values}
-            handleChange={handleChange.bind(this)}
+            handleChange={handleChange}
           />
           <CmButtonGroup
             step={step}
@@ -115,7 +111,7 @@ const CmQuestion = props => {
       <CmFields
         question={question}
         values={props.values}
-        handleChange={props.handleChange.bind(this)}
+        handleChange={props.handleChange}
       />
     </Stack>
   )
@@ -123,8 +119,7 @@ const CmQuestion = props => {
 
 const CmFields = props => {
   const question = props.question
-  const handleChange = (ev, fieldName) => {
-    console.log(ev, fieldName)
+  const handleChange = (fieldName, ev) => {
     props.handleChange({ [fieldName]: ev.target.value })
   }
 
@@ -138,7 +133,7 @@ const CmFields = props => {
               field={field}
               values={props.values}
               itemKey={question.key}
-              handleChange={props.handleChange.bind(this)}
+              handleChange={handleChange}
             />
           )
         } else if (field.type === 'number') {
@@ -169,18 +164,16 @@ const CaRadioGroup = props => {
   const field = props.field
   const values = props.values
   const items = props.itemKey ? field.items[values[props.itemKey]] : field.items
-
-  const handleChange = (ev) => {
-    props.handleChange({ [field.name]: ev.target.value })
-  }
+  // eslint-disable-next-line
+  const [value, setValue] = useState(values[field.name])
 
   return (
     <FormControl>
       {field.column && <FormLabel>{field.column}</FormLabel>}
       <RadioGroup
         name={field.name}
-        value={values[field.name]}
-        onChange={handleChange}
+        value={value}
+        onChange={props.handleChange.bind(this, field.name)}
         row
         sx={{ gap: 4 }}
       >
@@ -246,7 +239,7 @@ const CmButtonGroup = props => {
         variant="contained"
         color="primary"
         sx={sx.button}
-        onClick={() => props.handleNext()}
+        onClick={props.handleNext}
       >
         {nextText}
       </Button>
@@ -260,7 +253,7 @@ const CoResult = props => {
       <h1 className="hind">計算結果</h1>
       <ul>
         {Object.keys(props.values).map((key) => {
-          return <li>{key}: {props.values[key]}</li>
+          return <li key={key}>{key}: {props.values[key]}</li>
         })}
       </ul>
       <Button
