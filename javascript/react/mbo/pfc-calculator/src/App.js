@@ -295,14 +295,69 @@ const CmButtonGroup = props => {
 }
 
 const CoResult = props => {
+  const { sex, height, weight, fatPercentage, goal } = props.values
+
   return (
     <Grid container { ...flexBoxProps }>
       <h1 className="hind">計算結果</h1>
-      <ul>
-        {Object.keys(props.values).map((key) => {
-          return <li key={key}>{key}: {props.values[key]}</li>
-        })}
-      </ul>
+      <table>
+        {/* TODO: スタイル調整 */}
+        <tbody>
+          <tr>
+            <th>あなた</th>
+            <td>
+              <dl>
+                <dt>身長</dt>
+                <dd><Box>{height}</Box>cm</dd>
+              </dl>
+              <dl>
+                <dt>体重</dt>
+                <dd><Box>{weight}</Box>kg</dd>
+              </dl>
+              <dl>
+                <dt>体脂肪率</dt>
+                <dd><Box>{fatPercentage}</Box>%</dd>
+              </dl>
+              <dl>
+                <dt>BMI</dt>
+                <dd><Box>{bmi(weight, height)}</Box></dd>
+              </dl>
+              <dl>
+                <dt>基礎代謝</dt>
+                <dd><Box>{taisha()}</Box>kcal</dd>
+              </dl>
+            </td>
+          </tr>
+          <tr>
+            <th>摂取カロリー</th>
+            <td>
+              <dl>
+                <dt>合計</dt>
+                <dd><Box>{intakeCalorie()}</Box>kcal</dd>
+              </dl>
+            </td>
+          </tr>
+          <tr>
+            <th>実施期間</th>
+            <td>
+              <dl>
+                <dt>開始</dt>
+                <dd>
+                  <Box>2022</Box>年
+                  <Box>12</Box>月
+                  <Box>1</Box>日
+                </dd>
+                <dt>終了</dt>
+                <dd>
+                  <Box>2022</Box>年
+                  <Box>12</Box>月
+                  <Box>1</Box>日
+                </dd>
+              </dl>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <Button
         variant="contained"
         color="primary"
@@ -314,5 +369,30 @@ const CoResult = props => {
     </Grid>
   )
 }
+
+const bmi = (weight, height) => {
+  return weight / ((height / 100) * (height / 100))
+}
+
+const taisha = () => {
+  // TODO: 基礎代謝計算処理
+  return 1300
+}
+
+const intakeCalorie  = () => {
+  // TODO: 摂取カロリー計算処理
+  return 1270
+}
+
+const amountPerEach  = (type = 'p') => {
+  // TODO: 各栄養素の摂取量計算処理
+  return { g: 100, kcal: 400 }
+}
+
+const period  = (type = 'start') => {
+  // TODO: 実施期間計算処理
+  return { y: 2022, m: 12, d: 12 }
+}
+
 
 export default App
