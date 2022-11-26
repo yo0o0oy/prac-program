@@ -27,8 +27,14 @@
   },
   {
     "no": 2,
-    "q": "体重と体脂肪率を入力",
+    "q": "身長・体重・体脂肪率を入力",
     "fields": [
+      {
+        "name": "height",
+        "column": "身長",
+        "type": "number",
+        "suffix": "cm"
+      },
       {
         "name": "weight",
         "column": "体重",
