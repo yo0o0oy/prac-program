@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Box, Button, Stepper, Step, StepLabel, Grid, Stack, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles'
+import { ManRounded, WomanRounded } from '@mui/icons-material'
 import theme from './theme.js'
 import sx from './sx.js'
 import './font.css'
 import questions from "./questions.json" assert { type: "json" }
 
+const icons = { ManRounded, WomanRounded }
 const flexBoxProps = {
   direction: 'column',
   justifyContent: 'center',
@@ -185,10 +187,10 @@ const CaRadioGroup = props => {
                 value={item.value}
                 control={<Radio />}
                 label={
-                  <React.Fragment>
-                    {item.label.icon && 'icon'}
+                  <Stack { ...flexBoxProps } direction="row">
+                    {item.label.icon && React.createElement(icons[item.label.icon])}
                     {item.label.text}
-                  </React.Fragment>
+                  </Stack>
                 }
               />
             </Stack>

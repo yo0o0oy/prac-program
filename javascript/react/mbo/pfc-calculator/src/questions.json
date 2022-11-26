@@ -9,14 +9,14 @@
         "items": [
           {
             "label": {
-              "icon": "ManRoundedIcon",
+              "icon": "ManRounded",
               "text": "男性"
             },
             "value": "M"
           },
           {
             "label": {
-              "icon": "WomanRoundedIcon",
+              "icon": "WomanRounded",
               "text": "女性"
             },
             "value": "F"
