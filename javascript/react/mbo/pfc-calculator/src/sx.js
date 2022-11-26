@@ -25,7 +25,7 @@ const sx = {
   tooltip: {
     backgroundColor: '#AA2121',
     color: '#fff',
-    fontSize: 18,
+    fontSize: 14,
     paddingX: 6,
     py: 2,
     fontFamily: "'Hind', sans-serif",
