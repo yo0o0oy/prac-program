@@ -1,5 +1,21 @@
 import React, { useState } from 'react'
-import { Box, Button, Stepper, Step, StepLabel, Grid, Stack, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material'
+import {
+  Box,
+  Button,
+  Stepper,
+  Step,
+  StepLabel,
+  Grid,
+  Stack,
+  TextField,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+  FormLabel,
+  Backdrop,
+  CircularProgress
+} from '@mui/material'
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
 import { ThemeProvider, styled } from '@mui/material/styles'
 import { ManRounded, WomanRounded } from '@mui/icons-material'
@@ -24,18 +40,36 @@ const RedTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-const App = () => {
-  return (
-    <ThemeProvider theme={theme}>
-      <Box
-        className="App yu-gothic"
-        bgcolor="background.main"
-        sx={sx.app}
-      >
-        <CoContents />
-      </Box>
-    </ThemeProvider>
-  )
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      open: true
+    }
+  }
+  componentDidMount() {
+    this.setState({ open: false })
+  }
+
+  render() {
+    return (
+      <ThemeProvider theme={theme}>
+        <Box
+          className="App yu-gothic"
+          bgcolor="background.main"
+          sx={sx.app}
+        >
+          <CoContents />
+        </Box>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={this.state.open}
+        >
+          <CircularProgress color="primary" />
+        </Backdrop>
+      </ThemeProvider>
+    )
+  }
 }
 
 const CoContents = () => {
