@@ -1,14 +1,14 @@
 const sx = {
   app: {
     width: 1,
-    height: '100vh',
+    minHeight: '100vh',
     p: 8,
     color: 'text.primary',
     fontSize: '20px',
     boxSizing: 'border-box',
   },
   contents: {
-    height: '100%',
+    minHeight: '100%',
     borderRadius: 5,
     p: 8,
     boxSizing: 'border-box',
@@ -31,6 +31,16 @@ const sx = {
     fontFamily: "'Hind', sans-serif",
     fontWeight: 'bold',
     transform: 'rotetate(-15deg)'
-  }
+  },
+  valueBox: {
+    bgcolor: 'background.opacity',
+    px: 5,
+    pt: 1,
+    fontFamily: "'Hind', sans-serif",
+    fontSize: 35,
+    borderRadius: 2,
+    minWidth: 50,
+    display: 'inline',
+  },
 }
 export default sx

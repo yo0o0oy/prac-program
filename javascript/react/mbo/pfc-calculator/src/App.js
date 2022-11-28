@@ -21,7 +21,7 @@ import { ThemeProvider, styled } from '@mui/material/styles'
 import { ManRounded, WomanRounded } from '@mui/icons-material'
 import theme from './theme.js'
 import sx from './sx.js'
-import './font.css'
+import './style.css'
 import questions from "./questions.json" assert { type: "json" }
 
 const icons = { ManRounded, WomanRounded }
@@ -94,13 +94,22 @@ const CoContents = () => {
 
   if (step === 0) {
     return (
+      // <Stack
+      //   className="contents top"
+      //   bgcolor="transparent"
+      //   sx={sx.contents}
+      //   { ...flexBoxProps }
+      // >
+      //   <CoStart handleNext={handleNext}/>
+      // </Stack>
       <Stack
-        className="contents top"
-        bgcolor="transparent"
+        className="contents"
+          { ...flexBoxProps }
+        bgcolor="background.paper"
+        justifyContent="space-between"
         sx={sx.contents}
-        { ...flexBoxProps }
       >
-        <CoStart handleNext={handleNext}/>
+        <CoResult values={values} handleRetry={handleRetry} />
       </Stack>
     )
   }
@@ -300,60 +309,37 @@ const CoResult = props => {
   return (
     <Grid container { ...flexBoxProps }>
       <h1 className="hind">計算結果</h1>
-      <table>
+      <table className="result-table">
         {/* TODO: スタイル調整 */}
         <tbody>
           <tr>
             <th>あなた</th>
             <td>
-              <dl>
-                <dt>身長</dt>
-                <dd><Box>{height}</Box>cm</dd>
-              </dl>
-              <dl>
-                <dt>体重</dt>
-                <dd><Box>{weight}</Box>kg</dd>
-              </dl>
-              <dl>
-                <dt>体脂肪率</dt>
-                <dd><Box>{fatPercentage}</Box>%</dd>
-              </dl>
-              <dl>
-                <dt>BMI</dt>
-                <dd><Box>{bmi(weight, height)}</Box></dd>
-              </dl>
-              <dl>
-                <dt>基礎代謝</dt>
-                <dd><Box>{taisha()}</Box>kcal</dd>
-              </dl>
+              <ul className="result-list">
+                <li>身長<span>160</span>cm</li>
+                <li>体重<span>45</span>kg</li>
+                <li>体脂肪率<span>20</span>％</li>
+                <li>BMI<span>22</span></li>
+                <li>基礎代謝<span>1300</span>kcal</li>
+              </ul>
             </td>
           </tr>
           <tr>
             <th>摂取カロリー</th>
             <td>
-              <dl>
-                <dt>合計</dt>
-                <dd><Box>{intakeCalorie()}</Box>kcal</dd>
-              </dl>
+              <ul className="result-list">
+                <li>合計<span>1270</span>kcal</li>
+              </ul>
+              <button>内訳をみる</button>
             </td>
           </tr>
           <tr>
             <th>実施期間</th>
             <td>
-              <dl>
-                <dt>開始</dt>
-                <dd>
-                  <Box>2022</Box>年
-                  <Box>12</Box>月
-                  <Box>1</Box>日
-                </dd>
-                <dt>終了</dt>
-                <dd>
-                  <Box>2022</Box>年
-                  <Box>12</Box>月
-                  <Box>1</Box>日
-                </dd>
-              </dl>
+              <ul className="result-list">
+                <li>開始<span>2022</span>年<span>12</span>月<span>1</span>日</li>
+                <li>終了<span>2022</span>年<span>12</span>月<span>31</span>日</li>
+              </ul>
             </td>
           </tr>
         </tbody>
