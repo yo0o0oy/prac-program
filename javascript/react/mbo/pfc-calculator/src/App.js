@@ -298,7 +298,7 @@ const CmButtonGroup = props => {
 }
 
 const CoResult = props => {
-  const { sex, height, weight, fatPercentage, goal } = props.values
+  const { sex, age, height, weight, fatPercentage, goal } = props.values
   const [isExpanded, setIsExpanded] = React.useState(false)
   const handleChange =
     () => (event, val) => {
@@ -324,7 +324,7 @@ const CoResult = props => {
                 <li>体重<span>{weight}</span>kg</li>
                 <li>体脂肪率<span>{fatPercentage}</span>％</li>
                 <li>BMI<span>{bmi(weight, height)}</span></li>
-                <li>基礎代謝<span>{taisha()}</span>kcal</li>
+                <li>基礎代謝<span>{taisha(sex, age, weight, height)}</span>kcal</li>
               </ul>
             </td>
           </tr>
@@ -402,9 +402,12 @@ const bmi = (weight, height) => {
   return weight / ((height / 100) * (height / 100))
 }
 
-const taisha = () => {
-  // TODO: 基礎代謝計算処理
-  return 1300
+const taisha = (sex, age, weight, height) => {
+  // ハリス・ベネディクト方程式
+  if (sex === 'M') {
+    return 66 + weight * 13.7 + height * 5.0 - age * 6.8
+  }
+  return 665.1 + weight * 9.6 + height * 1.7 - age * 7
 }
 
 const intakeCalorie  = () => {
