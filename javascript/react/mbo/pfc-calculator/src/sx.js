@@ -8,7 +8,7 @@ const sx = {
     boxSizing: 'border-box',
   },
   contents: {
-    minHeight: '100%',
+    minHeight: 'calc(100vh - 80px)',
     borderRadius: 5,
     p: 8,
     boxSizing: 'border-box',

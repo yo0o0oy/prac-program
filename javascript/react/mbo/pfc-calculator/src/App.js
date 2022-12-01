@@ -14,17 +14,20 @@ import {
   FormControl,
   FormLabel,
   Backdrop,
-  CircularProgress
+  CircularProgress,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@mui/material'
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
 import { ThemeProvider, styled } from '@mui/material/styles'
-import { ManRounded, WomanRounded } from '@mui/icons-material'
+import { ManRounded, WomanRounded, ExpandLess, ExpandMore } from '@mui/icons-material'
 import theme from './theme.js'
 import sx from './sx.js'
 import './style.css'
 import questions from "./questions.json" assert { type: "json" }
 
-const icons = { ManRounded, WomanRounded }
+const icons = { ManRounded, WomanRounded, ExpandLess, ExpandMore }
 const flexBoxProps = {
   direction: 'column',
   justifyContent: 'center',
@@ -94,22 +97,13 @@ const CoContents = () => {
 
   if (step === 0) {
     return (
-      // <Stack
-      //   className="contents top"
-      //   bgcolor="transparent"
-      //   sx={sx.contents}
-      //   { ...flexBoxProps }
-      // >
-      //   <CoStart handleNext={handleNext}/>
-      // </Stack>
       <Stack
-        className="contents"
-          { ...flexBoxProps }
-        bgcolor="background.paper"
-        justifyContent="space-between"
+        className="contents top"
+        bgcolor="transparent"
         sx={sx.contents}
+        { ...flexBoxProps }
       >
-        <CoResult values={values} handleRetry={handleRetry} />
+        <CoStart handleNext={handleNext}/>
       </Stack>
     )
   }
@@ -136,7 +130,7 @@ const CoContents = () => {
             handleNext={handleNext}
           />
         </React.Fragment>
-      }
+    }
     </Stack>
   )
 }
@@ -305,22 +299,32 @@ const CmButtonGroup = props => {
 
 const CoResult = props => {
   const { sex, height, weight, fatPercentage, goal } = props.values
-
+  const [isExpanded, setIsExpanded] = React.useState(false)
+  const handleChange =
+    () => (event, val) => {
+      console.log(val)
+      setIsExpanded(val);
+    };
+  let btnText = '内訳を表示'
+  let btnIcon = 'ExpandMore'
+  if (isExpanded) {
+    btnText = '内訳を非表示'
+    btnIcon = 'ExpandLess'
+  }
   return (
     <Grid container { ...flexBoxProps }>
       <h1 className="hind">計算結果</h1>
       <table className="result-table">
-        {/* TODO: スタイル調整 */}
         <tbody>
           <tr>
             <th>あなた</th>
             <td>
               <ul className="result-list">
-                <li>身長<span>160</span>cm</li>
-                <li>体重<span>45</span>kg</li>
-                <li>体脂肪率<span>20</span>％</li>
-                <li>BMI<span>22</span></li>
-                <li>基礎代謝<span>1300</span>kcal</li>
+                <li>身長<span>{height}</span>cm</li>
+                <li>体重<span>{weight}</span>kg</li>
+                <li>体脂肪率<span>{fatPercentage}</span>％</li>
+                <li>BMI<span>{bmi(weight, height)}</span></li>
+                <li>基礎代謝<span>{taisha()}</span>kcal</li>
               </ul>
             </td>
           </tr>
@@ -328,9 +332,46 @@ const CoResult = props => {
             <th>摂取カロリー</th>
             <td>
               <ul className="result-list">
-                <li>合計<span>1270</span>kcal</li>
+                <li>合計<span>{intakeCalorie()}</span>kcal</li>
               </ul>
-              <button>内訳をみる</button>
+              <Accordion elevation={0} expanded={isExpanded} onChange={handleChange(true)}>
+                <AccordionSummary>
+                  <button className="btn-toggle">
+                    <span>{btnText}</span>
+                    {React.createElement(icons[btnIcon])}
+                  </button>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Stack>
+                    <ul className="result-list pfc">
+                      <li>
+                        <div className="name">
+                          <div className="icon">P</div>
+                          たんぱく質
+                        </div>
+                        <div><span>100</span>g</div>
+                        <div><span>400</span>kcal</div>
+                      </li>
+                      <li>
+                        <div className="name">
+                          <div className="icon">F</div>
+                          脂質
+                        </div>
+                        <div><span>30</span>g</div>
+                        <div><span>270</span>kcal</div>
+                      </li>
+                      <li>
+                        <div className="name">
+                          <div className="icon">C</div>
+                          炭水化物
+                        </div>
+                        <div><span>150</span>g</div>
+                        <div><span>600</span>kcal</div>
+                      </li>
+                    </ul>
+                  </Stack>
+                </AccordionDetails>
+              </Accordion>
             </td>
           </tr>
           <tr>
@@ -357,6 +398,7 @@ const CoResult = props => {
 }
 
 const bmi = (weight, height) => {
+  // TODO: 小数点第1位で切り上げ
   return weight / ((height / 100) * (height / 100))
 }
 

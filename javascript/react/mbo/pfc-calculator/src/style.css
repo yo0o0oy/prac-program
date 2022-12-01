@@ -30,7 +30,29 @@
 .result-table td {
   padding: 15px;
   border-bottom: solid 1px #C3C3C3;
+  font-weight: bold;
 }
+
+.result-table td .btn-toggle {
+  min-width: 140px;
+  display: flex;
+  align-items: center;
+  line-height: 30px;
+  background: #555555;
+  color: #fff;
+  outline: none;
+  appearance: none;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0 10px;
+  border-radius: 5px;
+}
+
+.result-table td .btn-toggle span {
+  width: 100px;
+}
+
 
 .result-list {
   margin: 0;
@@ -56,4 +78,38 @@
   background-color: #E2EEF0;
   border-radius: 10px;
   text-align: center;
+}
+
+
+.result-list.pfc {
+  flex-direction: column;
+}
+
+.result-list.pfc li {
+  gap: 10px 30px;
+}
+
+
+.result-list.pfc li div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.result-list.pfc li div.name {
+  width: 150px;
+}
+
+.result-list.pfc li div.icon {
+  width: 36px;
+  line-height: 33px;
+  background: #AA2121;
+  color: #FFF;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: 'Hind', sans-serif;
+  border-radius: 50%;
+  padding: 3px 0 0 1px;
+  box-sizing: border-box;
+  justify-content: center;
 }
