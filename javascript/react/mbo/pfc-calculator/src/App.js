@@ -299,9 +299,13 @@ const CmButtonGroup = props => {
 
 const CoResult = props => {
   const { sex, age, height, weight, fatPercentage, activityLevel, goal } = props.values
+  const joshibou = weight * (1 - fatPercentage / 100)
   const bmi = calcBmi(weight, height)
   const taisha = calcTaisha(sex, age, weight, height)
-  const burnedCalorie = taisha * activityLevel
+  const burnedKcal = taisha * activityLevel
+  const intakeKcal = burnedKcal - 300
+  const pfc = calcPfc(weight, joshibou, intakeKcal)
+  console.log(pfc)
   const period = calcPeriod()
   const [isExpanded, setIsExpanded] = React.useState(false)
   const handleChange = () => (event, val) => setIsExpanded(val)
@@ -323,10 +327,10 @@ const CoResult = props => {
               <ul className="result-list">
                 <li>身長<span>{height}</span>cm</li>
                 <li>体重<span>{weight}</span>kg</li>
-                <li>体脂肪率<span>{fatPercentage}</span>％</li>
+                {fatPercentage && <li>体脂肪率<span>{fatPercentage}</span>％</li>}
                 <li>BMI<span>{bmi}</span></li>
                 <li>基礎代謝<span>{taisha}</span>kcal</li>
-                <li>総消費カロリー<span>{burnedCalorie}</span>kcal</li>
+                <li>総消費カロリー<span>{burnedKcal}</span>kcal</li>
               </ul>
             </td>
           </tr>
@@ -334,7 +338,7 @@ const CoResult = props => {
             <th>摂取カロリー</th>
             <td>
               <ul className="result-list">
-                <li>合計<span>{calcIntakeCalorie()}</span>kcal</li>
+                <li>合計<span>{intakeKcal}</span>kcal</li>
               </ul>
               <Accordion elevation={0} expanded={isExpanded} onChange={handleChange(true)}>
                 <AccordionSummary>
@@ -346,30 +350,18 @@ const CoResult = props => {
                 <AccordionDetails>
                   <Stack>
                     <ul className="result-list pfc">
-                      <li>
-                        <div className="name">
-                          <div className="icon">P</div>
-                          たんぱく質
-                        </div>
-                        <div><span>100</span>g</div>
-                        <div><span>400</span>kcal</div>
-                      </li>
-                      <li>
-                        <div className="name">
-                          <div className="icon">F</div>
-                          脂質
-                        </div>
-                        <div><span>30</span>g</div>
-                        <div><span>270</span>kcal</div>
-                      </li>
-                      <li>
-                        <div className="name">
-                          <div className="icon">C</div>
-                          炭水化物
-                        </div>
-                        <div><span>150</span>g</div>
-                        <div><span>600</span>kcal</div>
-                      </li>
+                      {pfc.map((e) => {
+                        return (
+                          <li key={e.type}>
+                            <div className="name">
+                              <div className="icon">{e.type}</div>
+                              {e.name}
+                            </div>
+                            <div><span>{e.g}</span>g</div>
+                            <div><span>{e.kcal}</span>kcal</div>
+                          </li>
+                        )
+                      })}
                     </ul>
                   </Stack>
                 </AccordionDetails>
@@ -412,19 +404,20 @@ const calcTaisha = (sex, age, weight, height) => {
   return 665.1 + weight * 9.6 + height * 1.7 - age * 7
 }
 
-const calcBurnedCalorie  = (sex, age, weight, height, activityLevel) => {
-  // TODO: 総消費カロリー計算処理
-  return calcTaisha(sex, age, weight, height) * activityLevel
-}
+const calcPfc  = (weight, joshibou, intakeKcal) => {
+  // TODO: 小数点第1位で切り上げ
+  const pg = weight * 2
+  const pkcal = pg * 4
+  const fg = joshibou * 0.8
+  const fkcal = fg * 9
+  const ckcal = intakeKcal - pkcal - fkcal
+  const cg = ckcal / 4
 
-const calcIntakeCalorie  = () => {
-  // TODO: 摂取カロリー計算処理
-  return 1270
-}
-
-const amountPerEach  = (type = 'p') => {
-  // TODO: 各栄養素の摂取量計算処理
-  return { g: 100, kcal: 400 }
+  return [
+    { name: 'たんぱく質', type: 'P', g: pg, kcal: pkcal },
+    { name: '脂質', type: 'F', g: fg, kcal: fkcal },
+    { name: '炭水化物', type: 'C', g: cg, kcal: ckcal },
+  ]
 }
 
 const calcPeriod  = (type = 'start') => {
