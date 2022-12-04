@@ -10,6 +10,9 @@ import {
   TextField,
   Radio,
   RadioGroup,
+  Select,
+  InputLabel,
+  MenuItem,
   FormControlLabel,
   FormControl,
   FormLabel,
@@ -211,6 +214,16 @@ const CmFields = props => {
              <span sx={{ width: 40 }}>{field.suffix}</span>
             </Stack>
           )
+        } else if (field.type === 'select') {
+          return (
+            <CaSelect
+              key={i}
+              field={field}
+              values={props.values}
+              itemKey={question.key}
+              handleChange={handleChange}
+            />
+          )
         } else {
           return ''
         }
@@ -254,6 +267,33 @@ const CaRadioGroup = props => {
           )
         })}
       </RadioGroup>
+    </FormControl>
+  );
+}
+
+const CaSelect = props => {
+  const field = props.field
+  const values = props.values
+  // eslint-disable-next-line
+  const [value, setValue] = useState(values[field.name] || '')
+  const handleChange = (ev) => {
+    // FIXME: selectの値がセットされない
+    setValue(ev.target.value)
+    props.handleChange.bind(ev.target.value, field.name)
+  }
+
+  return (
+    <FormControl>
+      <InputLabel>{field.column}</InputLabel>
+      <Select
+        value={value}
+        label={field.column}
+        onChange={handleChange}
+      >
+        {field.items.map((item, i) => {
+          return <MenuItem key={i} value={item.value}>{item.label.text}</MenuItem>
+        })}
+      </Select>
     </FormControl>
   );
 }

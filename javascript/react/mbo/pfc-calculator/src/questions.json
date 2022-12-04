@@ -56,7 +56,7 @@
       {
         "name": "activityLevel",
         "column": "活動レベル",
-        "type": "radio",
+        "type": "select",
         "items": [
           {
             "label": {
