@@ -48,7 +48,7 @@
         "suffix": "kg"
       },
       {
-        "name": "fatPercentage",
+        "name": "fp",
         "column": "体脂肪率",
         "type": "number",
         "suffix": "％"
@@ -98,7 +98,7 @@
     "key": "sex",
     "fields": [
       {
-        "name": "goal",
+        "name": "gfp",
         "type": "radio",
         "items": {
           "M": [

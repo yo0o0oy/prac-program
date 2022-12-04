@@ -97,6 +97,16 @@ const CoContents = () => {
 
   if (step === 0) {
     return (
+      // <Stack
+      //   className="contents"
+      //     { ...flexBoxProps }
+      //   bgcolor="background.paper"
+      //   justifyContent="space-between"
+      //   sx={sx.contents}
+      // >
+      //   <CoResult values={values} handleRetry={handleRetry} />
+      // </Stack>
+
       <Stack
         className="contents top"
         bgcolor="transparent"
@@ -196,7 +206,6 @@ const CmFields = props => {
               <TextField
                 label={field.column}
                 variant="outlined"
-                // FIXME: 値が反映されない
                 onChange={handleChange.bind(this, field.name)}
               />
              <span sx={{ width: 40 }}>{field.suffix}</span>
@@ -298,15 +307,15 @@ const CmButtonGroup = props => {
 }
 
 const CoResult = props => {
-  const { sex, age, height, weight, fatPercentage, activityLevel, goal } = props.values
-  const joshibou = weight * (1 - fatPercentage / 100)
+  const { sex, age, height, weight, fp, activityLevel, gfp } = props.values
+  const joshibou = weight * (1 - fp / 100)
   const bmi = calcBmi(weight, height)
   const taisha = calcTaisha(sex, age, weight, height)
-  const burnedKcal = taisha * activityLevel
-  const intakeKcal = burnedKcal - 300
+  const burnedKcal = Math.round(taisha * activityLevel)
+  const underKcal = burnedKcal - 300 > taisha ? 300 : (burnedKcal - taisha)
+  const intakeKcal = burnedKcal - underKcal
   const pfc = calcPfc(weight, joshibou, intakeKcal)
-  console.log(pfc)
-  const period = calcPeriod()
+  const period = calcPeriod(weight, fp, gfp, underKcal)
   const [isExpanded, setIsExpanded] = React.useState(false)
   const handleChange = () => (event, val) => setIsExpanded(val)
 
@@ -327,7 +336,7 @@ const CoResult = props => {
               <ul className="result-list">
                 <li>身長<span>{height}</span>cm</li>
                 <li>体重<span>{weight}</span>kg</li>
-                {fatPercentage && <li>体脂肪率<span>{fatPercentage}</span>％</li>}
+                {fp && <li>体脂肪率<span>{fp}</span>％</li>}
                 <li>BMI<span>{bmi}</span></li>
                 <li>基礎代謝<span>{taisha}</span>kcal</li>
                 <li>総消費カロリー<span>{burnedKcal}</span>kcal</li>
@@ -393,25 +402,25 @@ const CoResult = props => {
 
 const calcBmi = (weight, height) => {
   // TODO: 小数点第1位で切り上げ
-  return weight / ((height / 100) * (height / 100))
+  return Math.round(weight / ((height / 100) * (height / 100)) * 10) / 10
 }
 
 const calcTaisha = (sex, age, weight, height) => {
   // ハリス・ベネディクト方程式
   if (sex === 'M') {
-    return 66 + weight * 13.7 + height * 5.0 - age * 6.8
+    return Math.round(66 + weight * 13.7 + height * 5.0 - age * 6.8)
   }
-  return 665.1 + weight * 9.6 + height * 1.7 - age * 7
+  return Math.round(665.1 + weight * 9.6 + height * 1.7 - age * 7)
 }
 
 const calcPfc  = (weight, joshibou, intakeKcal) => {
   // TODO: 小数点第1位で切り上げ
-  const pg = weight * 2
+  const pg = Math.round(weight * 2)
   const pkcal = pg * 4
-  const fg = joshibou * 0.8
+  const fg = Math.round(joshibou * 0.8)
   const fkcal = fg * 9
   const ckcal = intakeKcal - pkcal - fkcal
-  const cg = ckcal / 4
+  const cg = Math.round(ckcal / 4)
 
   return [
     { name: 'たんぱく質', type: 'P', g: pg, kcal: pkcal },
@@ -420,11 +429,14 @@ const calcPfc  = (weight, joshibou, intakeKcal) => {
   ]
 }
 
-const calcPeriod  = (type = 'start') => {
-  // TODO: 実施期間計算処理
+const calcPeriod  = (weight, fp, gfp, underKcal) => {
+  const days = Math.round(weight * ((fp - gfp) / 100) * 7200 / underKcal)
+  const from = new Date()
+  const to = new Date()
+  to.setDate(to.getDate() + days);
   return {
-    from: { y: 2022, m: 12, d: 12 },
-    to: { y: 2022, m: 12, d: 31 },
+    from: { y: from.getFullYear(), m: from.getMonth() + 1, d: from.getDate() },
+    to: { y: to.getFullYear(), m: to.getMonth() + 1, d: to.getDate() }
   }
 }
 
