@@ -298,13 +298,14 @@ const CmButtonGroup = props => {
 }
 
 const CoResult = props => {
-  const { sex, age, height, weight, fatPercentage, goal } = props.values
+  const { sex, age, height, weight, fatPercentage, activityLevel, goal } = props.values
+  const bmi = calcBmi(weight, height)
+  const taisha = calcTaisha(sex, age, weight, height)
+  const burnedCalorie = taisha * activityLevel
+  const period = calcPeriod()
   const [isExpanded, setIsExpanded] = React.useState(false)
-  const handleChange =
-    () => (event, val) => {
-      console.log(val)
-      setIsExpanded(val);
-    };
+  const handleChange = () => (event, val) => setIsExpanded(val)
+
   let btnText = '内訳を表示'
   let btnIcon = 'ExpandMore'
   if (isExpanded) {
@@ -323,8 +324,9 @@ const CoResult = props => {
                 <li>身長<span>{height}</span>cm</li>
                 <li>体重<span>{weight}</span>kg</li>
                 <li>体脂肪率<span>{fatPercentage}</span>％</li>
-                <li>BMI<span>{bmi(weight, height)}</span></li>
-                <li>基礎代謝<span>{taisha(sex, age, weight, height)}</span>kcal</li>
+                <li>BMI<span>{bmi}</span></li>
+                <li>基礎代謝<span>{taisha}</span>kcal</li>
+                <li>総消費カロリー<span>{burnedCalorie}</span>kcal</li>
               </ul>
             </td>
           </tr>
@@ -332,7 +334,7 @@ const CoResult = props => {
             <th>摂取カロリー</th>
             <td>
               <ul className="result-list">
-                <li>合計<span>{intakeCalorie()}</span>kcal</li>
+                <li>合計<span>{calcIntakeCalorie()}</span>kcal</li>
               </ul>
               <Accordion elevation={0} expanded={isExpanded} onChange={handleChange(true)}>
                 <AccordionSummary>
@@ -378,8 +380,8 @@ const CoResult = props => {
             <th>実施期間</th>
             <td>
               <ul className="result-list">
-                <li>開始<span>2022</span>年<span>12</span>月<span>1</span>日</li>
-                <li>終了<span>2022</span>年<span>12</span>月<span>31</span>日</li>
+                <li>開始<span>{period.from.y}</span>年<span>{period.from.m}</span>月<span>{period.from.d}</span>日</li>
+                <li>終了<span>{period.to.y}</span>年<span>{period.to.m}</span>月<span>{period.to.d}</span>日</li>
               </ul>
             </td>
           </tr>
@@ -397,12 +399,12 @@ const CoResult = props => {
   )
 }
 
-const bmi = (weight, height) => {
+const calcBmi = (weight, height) => {
   // TODO: 小数点第1位で切り上げ
   return weight / ((height / 100) * (height / 100))
 }
 
-const taisha = (sex, age, weight, height) => {
+const calcTaisha = (sex, age, weight, height) => {
   // ハリス・ベネディクト方程式
   if (sex === 'M') {
     return 66 + weight * 13.7 + height * 5.0 - age * 6.8
@@ -410,7 +412,12 @@ const taisha = (sex, age, weight, height) => {
   return 665.1 + weight * 9.6 + height * 1.7 - age * 7
 }
 
-const intakeCalorie  = () => {
+const calcBurnedCalorie  = (sex, age, weight, height, activityLevel) => {
+  // TODO: 総消費カロリー計算処理
+  return calcTaisha(sex, age, weight, height) * activityLevel
+}
+
+const calcIntakeCalorie  = () => {
   // TODO: 摂取カロリー計算処理
   return 1270
 }
@@ -420,9 +427,12 @@ const amountPerEach  = (type = 'p') => {
   return { g: 100, kcal: 400 }
 }
 
-const period  = (type = 'start') => {
+const calcPeriod  = (type = 'start') => {
   // TODO: 実施期間計算処理
-  return { y: 2022, m: 12, d: 12 }
+  return {
+    from: { y: 2022, m: 12, d: 12 },
+    to: { y: 2022, m: 12, d: 31 },
+  }
 }
 
 
