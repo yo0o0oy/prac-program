@@ -169,7 +169,7 @@ const CoStart = props => {
 const CmQuestion = props => {
   const question = questions[props.step - 1]
   return (
-    <Stack { ...flexBoxProps }>
+    <Stack { ...flexBoxProps } sx={{ width: '100%' }}>
       <h3>{question.q + 'してください'}</h3>
       <CmFields
         question={question}
@@ -187,48 +187,46 @@ const CmFields = props => {
   }
 
   return (
-    <React.Fragment>
+    <ul className={`form no${question.no}`}>
       {question.fields.map((field, i) => {
         if (field.type === 'radio') {
           return (
-            <CaRadioGroup
-              key={i}
-              field={field}
-              values={props.values}
-              itemKey={question.key}
-              handleChange={handleChange}
-            />
+            <li key={i}>
+              <CaRadioGroup
+                field={field}
+                values={props.values}
+                itemKey={question.key}
+                handleChange={handleChange}
+              />
+            </li>
           )
         } else if (field.type === 'number') {
           return (
-            <Stack
-              key={i}
-              { ...flexBoxProps }
-              direction="row"
-            >
+            <li key={i}>
               <TextField
                 label={field.column}
                 variant="outlined"
                 onChange={handleChange.bind(this, field.name)}
               />
-             <span sx={{ width: 40 }}>{field.suffix}</span>
-            </Stack>
+              <span>{field.suffix}</span>
+            </li>
           )
         } else if (field.type === 'select') {
           return (
-            <CaSelect
-              key={i}
-              field={field}
-              values={props.values}
-              itemKey={question.key}
-              handleChange={handleChange}
-            />
+            <li key={i} className="select">
+              <CaSelect
+                key={i}
+                field={field}
+                values={props.values}
+                handleChange={handleChange}
+              />
+            </li>
           )
         } else {
           return ''
         }
       })}
-    </React.Fragment>
+    </ul>
   )
 }
 
@@ -277,9 +275,8 @@ const CaSelect = props => {
   // eslint-disable-next-line
   const [value, setValue] = useState(values[field.name] || '')
   const handleChange = (ev) => {
-    // FIXME: selectの値がセットされない
     setValue(ev.target.value)
-    props.handleChange.bind(ev.target.value, field.name)
+    props.handleChange(field.name, ev)
   }
 
   return (
@@ -290,8 +287,8 @@ const CaSelect = props => {
         label={field.column}
         onChange={handleChange}
       >
-        {field.items.map((item, i) => {
-          return <MenuItem key={i} value={item.value}>{item.label.text}</MenuItem>
+        {field.items.map((item, i2) => {
+          return <MenuItem key={i2} value={item.value}>{item.label.text}</MenuItem>
         })}
       </Select>
     </FormControl>
