@@ -30,6 +30,10 @@ import sx from './sx.js'
 import './style.css'
 import questions from "./questions.json" assert { type: "json" }
 
+import { useCallback } from "react";
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
+
 const icons = { ManRounded, WomanRounded, ExpandLess, ExpandMore }
 const flexBoxProps = {
   direction: 'column',
@@ -65,6 +69,7 @@ class App extends React.Component {
           bgcolor="background.main"
           sx={sx.app}
         >
+          <CaParticles />
           <CoContents />
         </Box>
         <Backdrop
@@ -76,6 +81,72 @@ class App extends React.Component {
       </ThemeProvider>
     )
   }
+}
+
+const CaParticles = () => {
+  const particlesInit = useCallback(async engine => {
+    await loadFull(engine);
+  }, [])
+
+  return (
+    <Box className="ca-particles">
+      <Particles
+        id="tsparticles"
+        init={particlesInit}
+        options={{
+          interactivity: {
+            events: {
+              onClick: {
+                enable: false,
+              },
+              onHover: {
+                enable: false,
+              },
+              resize: true,
+            },
+          },
+          particles: {
+            collisions: {
+              enable: false,
+            },
+            move: {
+              direction: 'top',
+              enable: true,
+              bounce: false,
+              outModes: {
+                default: 'out',
+              },
+              random: false,
+              speed: 4,
+              straight: false,
+            },
+            number: {
+              density: {
+                enable: false,
+                area: 0,
+              },
+              value: 40,
+            },
+            opacity: {
+              value: 0.5,
+              random: true,
+            },
+            shape: {
+              type: 'image',
+              image: {
+                src: '/logo192.png',
+              }
+            },
+            size: {
+              value: { min: 30, max: 70 },
+              random: true,
+            },
+          },
+          detectRetina: true,
+        }}
+      />
+    </Box>
+  )
 }
 
 const CoContents = () => {
@@ -100,16 +171,6 @@ const CoContents = () => {
 
   if (step === 0) {
     return (
-      // <Stack
-      //   className="contents"
-      //     { ...flexBoxProps }
-      //   bgcolor="background.paper"
-      //   justifyContent="space-between"
-      //   sx={sx.contents}
-      // >
-      //   <CoResult values={values} handleRetry={handleRetry} />
-      // </Stack>
-
       <Stack
         className="contents top"
         bgcolor="transparent"

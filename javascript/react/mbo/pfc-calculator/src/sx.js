@@ -6,12 +6,15 @@ const sx = {
     color: 'text.primary',
     fontSize: '20px',
     boxSizing: 'border-box',
+    position: 'relative',
   },
   contents: {
     minHeight: 'calc(100vh - 80px)',
     borderRadius: 5,
     p: 8,
     boxSizing: 'border-box',
+    position: 'relative',
+    zIndex: 100,
   },
   button: {
     minWidth: 200,
