@@ -104,43 +104,43 @@
           "M": [
             {
               "label": {
-                "text": "約3%",
-                "img": "/images/body-m1.png"
+                "text": "約5%",
+                "img": "/images/body-m5.jpg"
               },
               "value": 3
             },
             {
               "label": {
-                "text": "約6%",
-                "img": "/images/body-m1.png"
+                "text": "約10%",
+                "img": "/images/body-m10.jpg"
               },
               "value": 6
             },
             {
               "label": {
-                "text": "約9%",
-                "img": "/images/body-m1.png"
+                "text": "約15%",
+                "img": "/images/body-m15.jpg"
               },
               "value": 9
             },
             {
               "label": {
-                "text": "約14%",
-                "img": "/images/body-m1.png"
+                "text": "約20%",
+                "img": "/images/body-m20.jpg"
               },
               "value": 14
             },
             {
               "label": {
-                "text": "約20%",
-                "img": "/images/body-m1.png"
+                "text": "約25%",
+                "img": "/images/body-m25.jpg"
               },
               "value": 20
             },
             {
               "label": {
                 "text": "約30%",
-                "img": "/images/body-m1.png"
+                "img": "/images/body-m30.jpg"
               },
               "value": 30
             }
