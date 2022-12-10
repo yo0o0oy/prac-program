@@ -25,14 +25,14 @@ import {
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
 import { ThemeProvider, styled } from '@mui/material/styles'
 import { ManRounded, WomanRounded, ExpandLess, ExpandMore } from '@mui/icons-material'
-import theme from './theme.js'
-import sx from './sx.js'
-import './style.css'
-import questions from "./questions.json" assert { type: "json" }
-
 import { useCallback } from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+
+import theme from './assets/js/theme.js'
+import sx from './assets/js/sx.js'
+import './assets/css/style.css'
+import questions from "./assets/data/questions.json" assert { type: "json" }
 
 const icons = { ManRounded, WomanRounded, ExpandLess, ExpandMore }
 const flexBoxProps = {
@@ -87,6 +87,7 @@ const CaParticles = () => {
   const particlesInit = useCallback(async engine => {
     await loadFull(engine);
   }, [])
+  console.log('render particle ')
 
   return (
     <Box className="ca-particles">
@@ -499,7 +500,6 @@ const CoResult = props => {
 }
 
 const calcBmi = (weight, height) => {
-  // TODO: 小数点第1位で切り上げ
   return Math.round(weight / ((height / 100) * (height / 100)) * 10) / 10
 }
 
@@ -512,7 +512,6 @@ const calcTaisha = (sex, age, weight, height) => {
 }
 
 const calcPfc  = (weight, joshibou, intakeKcal) => {
-  // TODO: 小数点第1位で切り上げ
   const pg = Math.round(weight * 2)
   const pkcal = pg * 4
   const fg = Math.round(joshibou * 0.8)
