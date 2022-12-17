@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { Box, Stack, Backdrop, CircularProgress } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
-import CaRadioGroup from "./components/atoms/CaRadioGroup";
-import CaTextField from "./components/atoms/CaTextField";
-import CaSelect from "./components/atoms/CaSelect";
 import CaStepper from "./components/atoms/CaStepper";
 import CaParticles from "./components/atoms/CaParticles";
 import CmButtonGroup from "./components/molecules/CmButtonGroup";
+import CmFields from "./components/molecules/CmFields";
 import CoStart from "./components/organisms/CoStart";
 import CoResult from "./components/organisms/CoResult";
 
@@ -133,44 +131,5 @@ const CmQuestion = props => {
   )
 }
 
-const CmFields = props => {
-  const question = props.question
-  const handleChange = (fieldName, ev) => {
-    props.handleChange({ [fieldName]: ev.target.value })
-  }
-
-  return (
-    <ul className={`form no${question.no}`}>
-      {question.fields.map((field, i) => {
-        return (
-          <li key={i} className={field.type}>
-            {field.type === 'radio' &&
-              <CaRadioGroup
-                field={field}
-                values={props.values}
-                itemKey={question.key}
-                handleChange={handleChange}
-              />
-            }
-            {field.type === 'number' &&
-              <CaTextField
-                field={field}
-                onChange={handleChange.bind(this, field.name)}
-              />
-            }
-            {field.type === 'select' &&
-              <CaSelect
-                key={i}
-                field={field}
-                values={props.values}
-                handleChange={handleChange}
-              />
-            }
-          </li>
-        )
-      })}
-    </ul>
-  )
-}
 
 export default App
