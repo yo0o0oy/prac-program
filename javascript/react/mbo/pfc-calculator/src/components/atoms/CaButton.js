@@ -11,17 +11,14 @@ const sx = {
   transition: '0.3s'
 }
 
-const CaButton = (props) => {
-  return (
-    <Button
-      variant={props.variant}
-      color={props.color}
-      sx={sx}
-      onClick={props.onClick}
-    >
-      {props.text}
-    </Button>
-  )
-}
+const CaButton = React.forwardRef((props, ref) => (
+  <Button
+    { ...props }
+    ref={ref}
+    sx={sx}
+  >
+    {props.text}
+  </Button>
+))
 
 export default CaButton
