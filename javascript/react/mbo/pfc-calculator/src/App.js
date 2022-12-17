@@ -1,22 +1,20 @@
-import React, { useState } from 'react'
-import { Box, Stack, Backdrop, CircularProgress } from '@mui/material'
+import React from 'react'
+import { Box, Backdrop, CircularProgress } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
-import CaStepper from "./components/atoms/CaStepper";
 import CaParticles from "./components/atoms/CaParticles";
-import CmButtonGroup from "./components/molecules/CmButtonGroup";
-import CmQuestion from "./components/molecules/CmQuestion";
-import CoStart from "./components/organisms/CoStart";
-import CoResult from "./components/organisms/CoResult";
+import CoContents from "./components/organisms/CoContents";
 
 import theme from './assets/js/theme.js'
-import sx from './assets/js/sx.js'
 import './assets/css/style.css'
-import questions from "./assets/data/questions.json" assert { type: "json" }
 
-const flexBoxProps = {
-  direction: 'column', justifyContent: 'center',
-  alignItems: 'center',
-  spacing: 4,
+const sx = {
+  width: 1,
+  minHeight: '100vh',
+  p: 8,
+  color: 'text.primary',
+  fontSize: '20px',
+  boxSizing: 'border-box',
+  position: 'relative',
 }
 
 class App extends React.Component {
@@ -36,7 +34,7 @@ class App extends React.Component {
         <Box
           className="App yu-gothic"
           bgcolor="background.main"
-          sx={sx.app}
+          sx={sx}
         >
           <CaParticles />
           <CoContents />
@@ -50,72 +48,6 @@ class App extends React.Component {
       </ThemeProvider>
     )
   }
-}
-
-const CoContents = () => {
-  const [step, setStep] = useState(0);
-  const [values, setValues] = useState({});
-
-  const handlePrev = () => {
-    setStep(step <= 0 ? 0 : step - 1)
-  }
-
-  const handleNext = () => {
-    setStep(step >= 4 ? 4 : step + 1)
-  }
-
-  const handleRetry = () => {
-    setStep(0)
-  }
-
-  const handleChange = (newValue) => {
-    setValues({...values, ...newValue})
-  }
-
-  if (step === 0) {
-    return (
-      <Stack
-        className="contents top"
-        bgcolor="transparent"
-        sx={sx.contents}
-        { ...flexBoxProps }
-      >
-        <CoStart handleNext={handleNext} />
-      </Stack>
-    )
-  }
-
-  const prevText = step <= 1 ? 'TOPへ' : '前へ'
-  const nextText = step >= 3 ? '計算結果へ' : '次へ'
-  return (
-    <Stack
-      className="contents"
-        { ...flexBoxProps }
-      bgcolor="background.paper"
-      justifyContent="space-between"
-      sx={sx.contents}
-    >
-      {step === 4 && <CoResult values={values} handleRetry={handleRetry} />}
-      {step !== 4 &&
-        <React.Fragment>
-          <CaStepper step={step} questions={questions} />
-          <CmQuestion
-            step={step}
-            values={values}
-            questions={questions}
-            handleChange={handleChange}
-          />
-          <CmButtonGroup
-            step={step}
-            prevText={prevText}
-            nextText={nextText}
-            handlePrev={handlePrev}
-            handleNext={handleNext}
-          />
-        </React.Fragment>
-    }
-    </Stack>
-  )
 }
 
 export default App
