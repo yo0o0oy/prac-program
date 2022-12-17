@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import CaStepper from "./components/atoms/CaStepper";
 import CaParticles from "./components/atoms/CaParticles";
 import CmButtonGroup from "./components/molecules/CmButtonGroup";
-import CmFields from "./components/molecules/CmFields";
+import CmQuestion from "./components/molecules/CmQuestion";
 import CoStart from "./components/organisms/CoStart";
 import CoResult from "./components/organisms/CoResult";
 
@@ -102,6 +102,7 @@ const CoContents = () => {
           <CmQuestion
             step={step}
             values={values}
+            questions={questions}
             handleChange={handleChange}
           />
           <CmButtonGroup
@@ -116,20 +117,5 @@ const CoContents = () => {
     </Stack>
   )
 }
-
-const CmQuestion = props => {
-  const question = questions[props.step - 1]
-  return (
-    <Stack { ...flexBoxProps } sx={{ width: '100%' }}>
-      <h3>{question.q + 'してください'}</h3>
-      <CmFields
-        question={question}
-        values={props.values}
-        handleChange={props.handleChange}
-      />
-    </Stack>
-  )
-}
-
 
 export default App
