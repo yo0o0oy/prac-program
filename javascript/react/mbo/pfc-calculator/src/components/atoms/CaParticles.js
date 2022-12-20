@@ -7,8 +7,8 @@ import { Box } from '@mui/material'
 const CaParticles = () => {
   const particlesInit = useCallback(async engine => {
     await loadFull(engine);
+    console.log('particles')
   }, [])
-  console.log('render particle ')
 
   return (
     <Box className="ca-particles">
