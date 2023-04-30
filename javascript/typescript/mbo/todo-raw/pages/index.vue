@@ -12,11 +12,12 @@
 
 <script>
 export default {
+  layout: 'default',
   data: () => ({
     todos: [
       {
         status: 'not-yet',
-        task: 'にんじん',
+        task: 'たまご',
       },
       {
         status: 'done',
