@@ -167,6 +167,7 @@ export default {
       color color-font-light
       border solid 1px color-font-light
       border-radius 4px
+      font-size 12px
       transition .3s
       &:hover
         background-color #eee
