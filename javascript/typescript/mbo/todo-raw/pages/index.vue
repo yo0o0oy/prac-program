@@ -1,8 +1,9 @@
 <template lang="pug">
 .page-top
-  h1 買い物リスト
-    |
-    button(@click="hideDoneTask" :class="{ 'show-all': isShowAll }") 実行済みを{{ isShowAll ? '非表示' : '表示' }}
+  .title-area
+    h1 買い物リスト
+    .buttons
+      button(@click="hideDoneTask" :class="{ 'show-all': isShowAll }") 実行済みを{{ isShowAll ? '非表示' : '表示' }}
   ul
     li(v-for="todo, i in todos" :class="{ done: todo.isDone }")
       .check(@click="toggleStatus(i)")
@@ -74,16 +75,18 @@ export default {
 </script>
 
 <style lang="stylus">
-color-font = #222
-color-main = #42a798
-color-border = #ddd
-color-gray = #aaa
 .page-top
   width 90%
   max-width 500px
-  margin 0 auto
+  margin 20px auto
+  .title-area
+    display flex
+    align-items center
+    justify-content space-between
+  h1
+    font-weight bold
+    font-size 22px
   ul
-    padding 0
     li
       display flex
       gap 10px

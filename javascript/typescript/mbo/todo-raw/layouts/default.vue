@@ -13,12 +13,3 @@ export default {
   components: { TdrHeader },
 }
 </script>
-
-
-<style lang="stylus">
-// TODO: 共通ファイル作成
-body
-  font-size 14px
-  font-family 'Yu Gothic', 'メイリオ'
-  margin 0
-</style>

@@ -25,12 +25,13 @@
     "@babel/eslint-parser": "^7.19.1",
     "@nuxtjs/eslint-config": "^11.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",
+    "@nuxtjs/style-resources": "^1.2.1",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.11.0",
     "prettier": "^2.7.1",
     "stylus": "^0.59.0",
-    "stylus-loader": "^4.3.3"
+    "stylus-loader": "^3.0.2"
   }
 }

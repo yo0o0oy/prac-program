@@ -5,7 +5,6 @@ header.header
 </template>
 
 <style lang="stylus">
-color-main = #42a798
 .header
   height 70px
   background-color color-main
@@ -19,5 +18,5 @@ color-main = #42a798
   span
     color white
     font-size 24px
-    font-family 'Arial'
+    font-family-arial()
 </style>
