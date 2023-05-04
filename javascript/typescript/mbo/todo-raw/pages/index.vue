@@ -3,7 +3,7 @@
   .title-area
     h1 買い物リスト
     .buttons
-      button(@click="hideDoneTask" :class="{ 'show-all': isShowAll }")
+      button.filter(@click="hideDoneTask" :class="{ 'show-all': isShowAll }")
         font-awesome-icon(:icon="`eye${isShowAll ? '-slash' : ''}`")
         | 実行済みを{{ isShowAll ? '非表示' : '表示' }}
   ul
@@ -111,6 +111,7 @@ export default {
   },
   methods: {
     updateTask(index, ev) {
+      // FIXME: json-serverを使ってモックサーバー作る https://pg-log.com/nuxt-axios/
       if (ev.type !== 'blur') {
         this.$refs.task[index].blur()
         return
@@ -158,6 +159,17 @@ export default {
       font-weight bold
       font-size 22px
       color color-main
+    .filter
+      display flex
+      gap 5px
+      align-items center
+      padding 3px 10px
+      color color-font-light
+      border solid 1px color-font-light
+      border-radius 4px
+      transition .3s
+      &:hover
+        background-color #eee
   ul
     li
       display grid
@@ -205,18 +217,20 @@ export default {
         &:hover
           background-color darken(color-caution, 4)
       &.done
-        .check
-          background color-main
-        input
-          text-decoration line-through
-          opacity 0.5
-          pointer-events none
+        .task-area
+          .check
+            background color-main
+          textarea
+            text-decoration line-through
+            opacity 0.5
+            pointer-events none
       &.add
         cursor pointer
-        .check
-          color color-main
-          border-color color-main
-          &:hover
-            color white
-            background-color color-main
+        .task-area
+          .check
+            color color-main
+            border-color color-main
+            &:hover
+              color white
+              background-color color-main
 </style>
