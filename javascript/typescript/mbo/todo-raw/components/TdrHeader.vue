@@ -1,7 +1,7 @@
 <template lang="pug">
 header.header
   img.logo(src="images/logo.png")
-  span TODO LIST
+  span TODOLIST
 </template>
 
 <style lang="stylus">
