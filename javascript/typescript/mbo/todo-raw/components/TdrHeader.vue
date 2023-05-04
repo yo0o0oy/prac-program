@@ -6,7 +6,10 @@ header.header
 
 <style lang="stylus">
 .header
-  height 70px
+  height 60px
+  position sticky
+  top 0
+  z-index 10
   background-color color-main
   display flex
   align-items center

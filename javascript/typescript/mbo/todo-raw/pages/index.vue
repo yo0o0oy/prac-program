@@ -41,6 +41,62 @@ export default {
         isDone: true,
         task: 'にんじん',
       },
+      {
+        isDone: false,
+        task: 'キャベツ',
+      },
+      {
+        isDone: true,
+        task: 'レタス',
+      },
+      {
+        isDone: false,
+        task: '玉ねぎ',
+      },
+      {
+        isDone: false,
+        task: 'トマト',
+      },
+      {
+        isDone: false,
+        task: 'じゃがいも',
+      },
+      {
+        isDone: false,
+        task: '豚肉',
+      },
+      {
+        isDone: false,
+        task: '鶏肉',
+      },
+      {
+        isDone: false,
+        task: '塩',
+      },
+      {
+        isDone: false,
+        task: 'しょうゆ',
+      },
+      {
+        isDone: false,
+        task: 'みりん',
+      },
+      {
+        isDone: false,
+        task: '砂糖',
+      },
+      {
+        isDone: false,
+        task: 'ヨーグルト',
+      },
+      {
+        isDone: false,
+        task: '牛乳',
+      },
+      {
+        isDone: false,
+        task: 'チーズ',
+      },
     ],
     newTodo: '',
     isShowAll: true,
@@ -106,7 +162,7 @@ export default {
       gap 10px
       align-items center
       grid-template-columns 1fr 30px
-      padding 10px
+      padding 10px 0
       border-bottom solid 1px color-border
       .task-area
         display flex
