@@ -11,9 +11,11 @@
       .task-area
         .check(@click="toggleStatus(i)")
           font-awesome-icon(icon="check")
-        input(
+        //- FIXME: 2行以上入力した場合は改行して全量表示
+        textarea(
           type="text"
           ref="task"
+          rows="1"
           v-model="todos[i].task"
           @keypress.enter="updateTask(i, $event)"
           @blur="updateTask(i, $event)"
@@ -165,7 +167,8 @@ export default {
       padding 10px 0
       border-bottom solid 1px color-border
       .task-area
-        display flex
+        display grid
+        grid-template-columns 25px 1fr
         align-items center
         gap 10px
         .check
@@ -180,10 +183,13 @@ export default {
           align-items center
           justify-content center
           color white
-        input
-          width auto
+        textarea
+          width 100%
           border none
           outline none
+          resize none
+          display flex
+          align-items center
         span
           color color-font
       .del
