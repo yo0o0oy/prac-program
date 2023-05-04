@@ -6,10 +6,7 @@
 </template>
 
 <script>
-import TdrHeader from '~/components/TdrHeader'
-
 export default {
   name: 'layout-default',
-  components: { TdrHeader },
 }
 </script>

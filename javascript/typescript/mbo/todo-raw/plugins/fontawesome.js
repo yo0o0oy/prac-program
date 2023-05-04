@@ -1,5 +1,6 @@
 const solid = [
-  'faCircleCheck'
+  'faEyeSlash',
+  'faEye',
 ]
 
 export { solid }

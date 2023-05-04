@@ -3,7 +3,9 @@
   .title-area
     h1 買い物リスト
     .buttons
-      button(@click="hideDoneTask" :class="{ 'show-all': isShowAll }") 実行済みを{{ isShowAll ? '非表示' : '表示' }}
+      button(@click="hideDoneTask" :class="{ 'show-all': isShowAll }")
+        font-awesome-icon(:icon="`eye${isShowAll ? '-slash' : ''}`")
+        | 実行済みを{{ isShowAll ? '非表示' : '表示' }}
   ul
     li(v-for="todo, i in todos" :class="{ done: todo.isDone }")
       .check(@click="toggleStatus(i)")
@@ -83,9 +85,11 @@ export default {
     display flex
     align-items center
     justify-content space-between
-  h1
-    font-weight bold
-    font-size 22px
+    margin-bottom 10px
+    h1
+      font-weight bold
+      font-size 22px
+      color color-main
   ul
     li
       display flex

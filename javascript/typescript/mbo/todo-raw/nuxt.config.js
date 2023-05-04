@@ -1,3 +1,4 @@
+import * as FontAwesome from './plugins/fontawesome'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -27,10 +28,19 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
+    ['@nuxtjs/fontawesome', { component: 'fontAwesome', suffix: true }],
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/style-resources'],
+  modules: [
+    '@nuxtjs/style-resources',
+  ],
+
+  fontawesome: {
+    icons: {
+      solid: FontAwesome.solid,
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
