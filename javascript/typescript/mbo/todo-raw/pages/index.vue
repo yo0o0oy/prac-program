@@ -34,84 +34,23 @@ export default {
   name: 'page-index',
   layout: 'layout-default',
   data: () => ({
-    allTodos: [
-      {
-        isDone: false,
-        task: 'たまご',
-      },
-      {
-        isDone: true,
-        task: 'にんじん',
-      },
-      {
-        isDone: false,
-        task: 'キャベツ',
-      },
-      {
-        isDone: true,
-        task: 'レタス',
-      },
-      {
-        isDone: false,
-        task: '玉ねぎ',
-      },
-      {
-        isDone: false,
-        task: 'トマト',
-      },
-      {
-        isDone: false,
-        task: 'じゃがいも',
-      },
-      {
-        isDone: false,
-        task: '豚肉',
-      },
-      {
-        isDone: false,
-        task: '鶏肉',
-      },
-      {
-        isDone: false,
-        task: '塩',
-      },
-      {
-        isDone: false,
-        task: 'しょうゆ',
-      },
-      {
-        isDone: false,
-        task: 'みりん',
-      },
-      {
-        isDone: false,
-        task: '砂糖',
-      },
-      {
-        isDone: false,
-        task: 'ヨーグルト',
-      },
-      {
-        isDone: false,
-        task: '牛乳',
-      },
-      {
-        isDone: false,
-        task: 'チーズ',
-      },
-    ],
     newTodo: '',
-    isShowAll: true,
+    isShowAll: false,
   }),
   computed: {
     todos() {
       if (this.isShowAll) return [...this.allTodos]
       return [...this.allTodos].filter((todo) => !todo.isDone)
     },
+    allTodos() {
+      return this.$store.state.todo.list
+    },
+  },
+  async mounted() {
+    this.$store.dispatch('todo/getTodos')
   },
   methods: {
     updateTask(index, ev) {
-      // FIXME: json-serverを使ってモックサーバー作る https://pg-log.com/nuxt-axios/
       if (ev.type !== 'blur') {
         this.$refs.task[index].blur()
         return
