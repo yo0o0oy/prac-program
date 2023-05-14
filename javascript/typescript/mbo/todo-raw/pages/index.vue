@@ -3,13 +3,13 @@
   .title-area
     h1 買い物リスト
     .buttons
-      button.filter(@click="hideDoneTask" :class="{ 'show-all': isShowAll }")
+      button.filter(@click="isShowAll = !isShowAll" :class="{ 'show-all': isShowAll }")
         font-awesome-icon(:icon="`eye${isShowAll ? '-slash' : ''}`")
         | 実行済みを{{ isShowAll ? '非表示' : '表示' }}
   ul
     li(v-for="todo, i in todos" :class="{ done: todo.isDone }")
       .task-area
-        .check(@click="toggleStatus(i)")
+        .check(@click="toggleStatus(todo)")
           font-awesome-icon(icon="check")
         //- FIXME: 2行以上入力した場合は改行して全量表示
         textarea(
@@ -20,7 +20,7 @@
           @keypress.enter="updateTask(i, $event)"
           @blur="updateTask(i, $event)"
         )
-      button.del(@click="del(i)")
+      button.del(@click="del(todo)")
         font-awesome-icon(icon="trash-can")
     li.add(@click="addTask")
       .task-area
@@ -34,51 +34,63 @@ export default {
   name: 'page-index',
   layout: 'layout-default',
   data: () => ({
-    newTodo: '',
+    todos: [],
     isShowAll: false,
   }),
   computed: {
-    todos() {
-      if (this.isShowAll) return [...this.allTodos]
-      return [...this.allTodos].filter((todo) => !todo.isDone)
-    },
     allTodos() {
       return this.$store.state.todo.list
+    },
+  },
+  watch: {
+    allTodos() {
+      this.setTodos()
+    },
+    isShowAll() {
+      this.setTodos()
     },
   },
   async mounted() {
     this.$store.dispatch('todo/getTodos')
   },
   methods: {
-    updateTask(index, ev) {
+    setTodos() {
+      const allTodos = JSON.parse(JSON.stringify(this.allTodos))
+      this.todos = this.isShowAll ? allTodos : allTodos.filter((todo) => !todo.isDone)
+    },
+    async updateTask(index, ev) {
       if (ev.type !== 'blur') {
         this.$refs.task[index].blur()
         return
       }
-      this.allTodos[index].task = ev.target.value
+      const todo = this.todos[index]
+      await this.$store.dispatch('todo/putTodo', { id: todo.id, data: todo })
       this.trim()
     },
-    del(index) {
-      this.allTodos[index].task = ''
-      this.trim()
+    async del(todo) {
+      if (todo.task !== '') {
+        await this.$store.dispatch('todo/deleteTodo', todo.id)
+      }
     },
     trim() {
-      this.allTodos = this.allTodos.filter((todo) => todo.task !== '')
+      const blankIds = this.allTodos.filter((todo) => !todo.task).map((todo) => todo.id)
+      blankIds.forEach((id) => {
+        this.$store.dispatch('todo/deleteTodo', id)
+      })
     },
-    toggleStatus(index) {
-      this.allTodos[index].isDone = !this.allTodos[index].isDone
+    toggleStatus(todo) {
+      todo.isDone = !todo.isDone
+      this.$store.dispatch('todo/putTodo', { id: todo.id, data: todo })
     },
-    addTask() {
-      this.allTodos.push({
+    async addTask() {
+      await this.$store.dispatch('todo/postTodo', {
         isDone: false,
         task: '',
       })
-      this.$nextTick(() => {
-        this.$refs.task[this.allTodos.length - 1].focus()
-      })
-    },
-    hideDoneTask() {
-      this.isShowAll = !this.isShowAll
+      while(!this.$refs.task[this.todos.length - 1]) {
+        await new Promise((resolve) => setTimeout(resolve, 200))
+      }
+      this.$refs.task[this.todos.length - 1].focus()
     },
   },
 }
