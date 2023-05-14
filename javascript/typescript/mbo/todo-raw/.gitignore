@@ -91,3 +91,6 @@ sw.*
 
 # sitemap
 sitemap.xml
+
+# db
+db.json
