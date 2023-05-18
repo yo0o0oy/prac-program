@@ -116,8 +116,7 @@
   let strLength: number = (<string>someValue).length // JSXでは非推奨
   let strLength: number = (someValue as string).length
   ```
-* 
-* 
+* 列挙型（enum）：複数の変数に一連の整数値を付ける必要がある場合に使用すると便利。 例えばswitch-case文のcaseの値など。
 * 
 * 
 * 手順
