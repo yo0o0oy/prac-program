@@ -109,7 +109,17 @@
       let truth: true
       truth = true // OK
       truth = false // Error!
-* ...
+* アサーション：？
+  ```
+  // 書き方は2通り
+  let someValue: any = 'this is a string'
+  let strLength: number = (<string>someValue).length // JSXでは非推奨
+  let strLength: number = (someValue as string).length
+  ```
+* 
+* 
+* 
+* 
 * 手順
   1. create-nuxt-app
   2. tsconfig.js調整
