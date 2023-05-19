@@ -10,16 +10,25 @@
  * TypeScriptは「AltJS（= JavaScriptより優れた機能を持ち、コンパイル（トランスパイル）後はJavaScriptのコードが生成される言語）」のひとつで次世代のJavaScriptの最有力候補と言われている。
 
 ## 学習内容まとめ
-* tsconfig.json [参考](https://blog.isystk.com/system_develop/frontend/typescript/757/)
-  - compilerOptions
-    * target
-    * module
-    * ...
-    * ...
-    * ...
-    * ...
-    * ...
-  - exclude
+
+### 導入
+
+#### 開発環境と設定
+* vscode
+* tscコマンド
+* ビルドツールと設定
+  - tsconfig.json [参考](https://blog.isystk.com/system_develop/frontend/typescript/757/)
+    * compilerOptions
+      - target
+      - module
+      - ...
+      - ...
+      - ...
+      - ...
+      - ...
+    * exclude
+
+#### 基礎
 * 型
   - 基本の型
     * boolean型
@@ -109,6 +118,7 @@
       let truth: true
       truth = true // OK
       truth = false // Error!
+* typeofキーワードとkeyofキーワード
 * アサーション：？
   ```
   // 書き方は2通り
@@ -116,9 +126,86 @@
   let strLength: number = (<string>someValue).length // JSXでは非推奨
   let strLength: number = (someValue as string).length
   ```
+* クラス
 * 列挙型（enum）：複数の変数に一連の整数値を付ける必要がある場合に使用すると便利。 例えばswitch-case文のcaseの値など。
-* 
-* 
+
+#### 型推論
+typescriptの型宣言はとても強力な一方で、柔軟なプログラミングも許容する。Javascriptらしさを損なわず、開発者を手助けする。
+ちょうどよい型推論が魅力である。
+
+* const / let
+  変数宣言時に代入された値からその値の型を推論できる。（※ constはWidening Literal Type）
+  ```
+  let user = 'Taro' // let user: string
+  let value = 0 // let value: number
+  let flag = false // let flag: boolean
+
+  const user = 'Taro' // const user: string
+  const value = 0 // const value: number
+  const flag = false // const flag: boolean
+  ```
+* Array / Tuple
+  ```
+  // Array
+  const a1 = [true, false] // const a1: boolean[]
+  const a2 = [0, 1, '2'] // const a2: (string | number)[]
+  const a3 = [galse, 1, '2'] // const a3: (string | number | boolean)[]
+
+  // Tuple
+  ```
+* object
+* 関数の戻り型
+* Promise
+* import構文
+* JSON
+
+#### 型安全
+* 制約による型安全
+* 抽象度による型安全
+* 絞り込みによる型安全
+
+#### 型システム
+* 型の互換性
+* 宣言の結合
+
+#### 高度な型
+* Generics
+* Conditional Types
+* Utility Types
+
+
+### 実践
+
+#### Vue.jsとTypescript
+* Vue.extendベースの開発
+* cue-class-componentベースの開発
+* Vuexの型推論を探求する
+
+#### Nuxt.jsとTypescript
+* Typescriptで始めるNuxt.js
+  - 開発環境の構築
+  - ページコンポーネント
+  - asyncData関数
+  - app.$axiosの付与
+  - asyncData関数を修正する
+* Vuexの型課題を解決する
+  - 名前空間を解決する
+  - Module型定義を分離する
+  - Vuex型定義を拡張する
+  - SFCでthis.$storeを参照する
+  - store.commitとstore.dispatchの型
+  - store.stateの型
+  - rootStateとrootGettersの型
+  - nuxtServerInitにも付与する
+  - 定義の整理
+
+
+
+
+
+
+## 構築手順
+
 * 手順
   1. create-nuxt-app
   2. tsconfig.js調整
