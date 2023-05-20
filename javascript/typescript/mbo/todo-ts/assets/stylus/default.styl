@@ -1,0 +1,37 @@
+html,
+body
+  color color-font
+  width 100%
+  min-height 100%
+  margin 0 auto
+  font-size 14px
+  font-weight 400
+  -webkit-text-size-adjust 100%
+  font-feature-settings "pkna"
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  font-display swap
+  -webkit-overflow-scrolling touch
+  word-break break-word
+  overflow-x clip
+  font-family-yu-gothic()
+  +bp(md)
+    width 100vw
+    height auto
+    position relative
+    overflow-y scroll
+  &.overflow-y-hidden
+    overflow-y hidden
+
+a
+  position relative
+  display inline-block
+
+img
+  transition .3s
+  -webkit-backface-visibility hidden
+  image-rendering -webkit-optimize-contrast
+  &[lazy=loading]
+    opacity 0
+  &[lazy=loaded]
+    opacity 1

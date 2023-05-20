@@ -1,0 +1,134 @@
+link(color-link)
+  color color-link
+  text-decoration none
+  &:hover, &:active, &:visited, &:focus
+    color color-link
+    text-decoration none
+
+active(color-active)
+  &:active
+    background color-active
+
+placeholder(color)
+  &::placeholder
+    color color
+  &:-ms-input-placeholder
+    color color
+  &::-ms-input-placeholder
+    color color
+
+custom-scroll(color1, color2, width, hasMargin, isRadius)
+  &::-webkit-scrollbar
+    width width px
+  &::-webkit-scrollbar-track
+    if hasMargin
+      margin 0 0 0 20px
+    background color1
+    border-radius 2px
+  &::-webkit-scrollbar-thumb
+    background color2
+    if isRadius
+      border-radius 2px
+
+line-clamp(count=1, line-height=1.5)
+  overflow hidden
+  text-overflow ellipsis
+  line-height line-height
+  //min-height line-height * count
+  if count > 1
+    white-space initial
+    display -webkit-box
+    -webkit-line-clamp count
+    /*! autoprefixer: ignore next */
+    -webkit-box-orient vertical
+    /* autoprefixer: on */
+  else
+    white-space nowrap
+
+rem(value)
+  if (value is 'auto' || value is 'inherit')
+    return value
+
+  u = unit(value)
+  if (u is 'px')
+    return unit(value/16, 'rem')
+  else
+    return unit(value, u)
+
+remit($property, $sizes)
+  $rems = ()
+  $pxs = ()
+
+  for $size in $sizes
+    push($rems, rem($size))
+    push($pxs, $size)
+
+  add-property($property, $pxs)
+  add-property($property, $rems)
+
+ff(lang, num)
+  return 'var(--font-family-%s%s, %s)' % (lang num convert('font-family-%s-default' % lang))
+
+clr(name)
+  return 'var(--color-%s, %s)' % (unquote(name) convert('color-' + unquote(name)))
+
+bp(name)
+  if name == 'sm' or name == 'md'  or name == 'lg'
+    .bp-{name} &
+      {block}
+  else
+    @media only screen and (max-width: name)
+      {block}
+
+bps(name)
+  if name == 'sm' or name == 'md'  or name == 'lg'
+    .bps-{name} &
+      {block}
+  else
+    @media only screen and (min-width: name + 1px)
+      {block}
+
+pcHover()
+  .bps-md &
+    &:hover
+      {block}
+
+calcWidth(width)
+  return "calc(100vw * %s / %s)" % (width var(--var-design-sm, 750))
+
+calcHeight(height)
+  return "calc(100vw * %s / %s)" % (height var(--var-design-sm, 750))
+
+hover-underline(border-width=1, color=clr('font'))
+  position relative
+  &:after
+    content ''
+    width 100%
+    height border-width px
+    background color
+    transform scale(0,1)
+    transition 0.4s
+    position absolute
+    bottom 0
+    left 0
+    transition .3s
+  &:hover
+    &:after
+      transform scale(1)
+
+hover-underline-reverse(border-width=1, color=clr('font'))
+  position relative
+  &:after
+    content ''
+    width 100%
+    height border-width px
+    background color
+    transform scale(1)
+    transition 0.4s
+    position absolute
+    bottom 0
+    left 0
+    transition .3s
+  &:hover
+    &:after
+      transform scale(0,1)
