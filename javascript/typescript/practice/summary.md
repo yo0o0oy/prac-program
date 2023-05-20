@@ -10,7 +10,7 @@
    ```
    $ npm　install --save typescript
    ```
-4. 型定義情報を入れる
+4. nodeのデフォルトのモジュールの型定義を入れる
    ```
    $ npm install --save-dev @types/node
    ```
@@ -18,11 +18,12 @@
    ```
    $ npx tsc --init
    ```
-6. typescriptファイルをコンパイル
+6. 実行するtsファイルを作成
+7. typescriptファイルをコンパイル
    ```
    $ npx tsc main.ts（tsファイル名）
    ```
-7. 作成された同名のjsを実行
+8. 作成された同名のjsを実行
    ```
    $ node main.js（jsファイル名）
    ```
@@ -30,7 +31,7 @@
 ## nodeのパッケージを使いたいとき
 パッケージだけでは型定義がなくエラーがでるので
 パッケージ + @types/パッケージ名で型定義もインストールする必要がある
-※ 型定義は--save-devとする
+※ 型定義は--save-devでよい
 ※ typescriptに対応しているパッケージも増えてきて、@typesをインストールしなくて良いものもある
 ※型定義がないパッケージもある
 
