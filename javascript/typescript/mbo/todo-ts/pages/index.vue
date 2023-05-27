@@ -37,7 +37,6 @@ export type Todo = {
   isDone: boolean,
   task: string,
 }
-
 export default Vue.extend({
   data() {
     return {
@@ -66,20 +65,41 @@ export default Vue.extend({
       const allTodos: Todo[] = JSON.parse(JSON.stringify(this.allTodos))
       this.todos = this.isShowAll ? allTodos : allTodos.filter((todo: Todo): boolean => !todo.isDone)
     },
-    updateTask() {
-      alert('updateTask')
+    async updateTask(index: number, ev: HTMLTextAreaElement) {
+      if (ev.type !== 'blur' && this.$refs.task !== undefined) {
+        // FIXME: TS7053 エラー
+        // this.$refs.task[index].blur()
+        return
+      }
+      const todo = this.todos[index]
+      await this.$store.dispatch('todo/putTodo', { id: todo.id, data: todo })
+      this.trim()
     },
-    del() {
-      alert('del')
+    async del(todo: Todo) {
+      if (todo.task !== '') {
+        await this.$store.dispatch('todo/deleteTodo', todo.id)
+      }
     },
     trim() {
-      alert('trim')
+      const blankIds = this.allTodos.filter((todo) => !todo.task).map((todo) => todo.id)
+      blankIds.forEach((id) => {
+        this.$store.dispatch('todo/deleteTodo', id)
+      })
     },
-    toggleStatus() {
-      alert('toggleStatus')
+    toggleStatus(todo: Todo) {
+      todo.isDone = !todo.isDone
+      this.$store.dispatch('todo/putTodo', { id: todo.id, data: todo })
     },
-    addTask() {
-      alert('addTask')
+    async addTask() {
+      await this.$store.dispatch('todo/postTodo', {
+        isDone: false,
+        task: '',
+      })
+      // FIXME: TS7053 エラー
+      // while(!this.$refs.task || !this.$refs.task[this.todos.length - 1]) {
+      //   await new Promise((resolve) => setTimeout(resolve, 200))
+      // }
+      // this.$refs.task[this.todos.length - 1].focus()
     },
   },
 }

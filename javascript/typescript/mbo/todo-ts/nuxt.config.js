@@ -28,6 +28,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
+    'nuxt-typed-vuex',
     ['@nuxtjs/fontawesome', { component: 'fontAwesome', suffix: true }],
   ],
 
@@ -43,7 +44,11 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: [
+      /typed-vuex/,
+    ]
+  },
 
   styleResources: {
     stylus: '~/assets/stylus/set.styl',
