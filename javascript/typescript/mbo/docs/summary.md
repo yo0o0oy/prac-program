@@ -2,7 +2,7 @@
 
 ## Typescriptとは
  * 2012年にMicrosoftが開発したオープンソースのプログラミング言語でJavaScriptの上位互換（JavaScriptが持つ機能を維持しつつ、追加の機能をそなえる）
- * JavaScriptと同じように記述ができる + 型の指定ができる
+ * JavaScriptと同じように記述ができる +α 型の指定ができる
  * JavaScriptと同じ構文を用いているので、JavaScriptの経験があれば比較的習得は容易
  * JavaScriptでできることはTypeScriptでもできるので、webサイトやwebアプリケーション開発に適した言語だが、特に大規模なWebアプリケーションを開発する際に威力を発揮する
  * 型定義をすることでプログラムを動かさずとも、バグが無いか未然に検知できるようになり大規模な開発における生産性を向上させる
@@ -13,7 +13,7 @@
    - 型推論：言語自体が変数の型を予測して補完してくれる機能。高速に処理できるメリットがある。
    - 静的型付け言語：変数やメソッドの戻り値にあらかじめ型を指定する
    - 動的型付け言語：実行時にデータ型を決める
- * インターフェースとクラスの定義が可能なため、大規模なシステムをクラスを使って細分化し、チームで分担しながら開発を進めるのに適している
+ * インターフェースとクラスの定義が可能（→大規模なシステムをクラスを使って細分化し、チームで分担しながら開発を進めるのに適している）
  * AltJsの一つでJavascriptと相互に互換性を持っている
    - AltJsとはJavaScriptより優れた機能を持ち、コンパイル（トランスパイル）後はJavaScriptのコードが生成される言語
    - TypeScriptで書いたコードをJavaScriptに変換できるので、JavaScriptで書かれたコードを、処理に応じてTypeScriptで書き換えられる。またTypeScriptから直接JavaScriptを呼び出したり、反対にJavaScriptからTypeScriptを呼び出すこともできる。→ プログラムのメンテナンス性↑
@@ -188,7 +188,7 @@ typescriptの型宣言はとても強力な一方で、柔軟なプログラミ�
 
 #### Vue.jsとTypescript
 * Vue.extendベースの開発
-* cue-class-componentベースの開発
+* vue-class-componentベースの開発
 * Vuexの型推論を探求する
 
 #### Nuxt.jsとTypescript
@@ -229,6 +229,22 @@ typescriptの型宣言はとても強力な一方で、柔軟なプログラミ�
 - タスク内容を編集後フォーカスアウトまたはEnter押下でタスクリストを更新
 
 キャプチャなど
+
+
+## Nuxt(Options API)をtypescript化
+1. Options API Vue.extend
+  * 従来のVueの記法で書けるため、ある程度Vue2系に慣れいている人であれば、追加の学習コストがほとんどない
+  * 変わる点
+    - script langをtsに変更
+    - Vueモジュールをimport/extend
+    - コンポーネント、ページ自体にクラス名を付与
+2. Class API @Component
+   * Nuxt.js（2系） + TypeScript環境で最もメジャーな組み合わせであったこともあり、ドキュメントが豊富に揃っている
+   * vue-property-decoratorを使用した記法が必要となるので、Vueの標準の記法とは異なり、多少慣れが必要
+   * Vue3では廃止
+3. Composition API
+   * Vue3で採用された新しいAPI
+   * 各コンポーネントがVueインスタンス（this）に依存しないためテストが書きやすく、TypeScriptとの相性が良い
 
 ## 勉強してみた感想
 * ...
