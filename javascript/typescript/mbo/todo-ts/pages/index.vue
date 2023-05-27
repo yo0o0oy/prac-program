@@ -31,12 +31,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { Todo } from '~/types/todo'
 
-export type Todo = {
-  id: number,
-  isDone: boolean,
-  task: string,
-}
 export default Vue.extend({
   data() {
     return {

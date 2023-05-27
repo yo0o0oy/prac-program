@@ -1,36 +1,21 @@
 import axios, { AxiosResponse } from "axios"
 import { /* getterTree, */ mutationTree, actionTree, getAccessorType } from 'typed-vuex'
+import { Todo } from '~/types/todo'
 
 // これらは型推論に必要のため、空でも定義しておく
 export const state = () => ({
-  list: [] as Array<{
-    id: number,
-    isDone: boolean,
-    task: string,
-  }>
+  list: [] as Array<Todo>
 })
 export const getters = {}
 
 export const mutations = mutationTree(state, {
-  getTodos(state, data: {
-    id: number,
-    isDone: boolean,
-    task: string,
-  }[]): void {
+  getTodos(state, data: Todo[]): void {
     state.list = data
   },
-  postTodo(state, data: {
-    id: number,
-    isDone: boolean,
-    task: string,
-  }): void {
+  postTodo(state, data: Todo): void {
     state.list.push(data)
   },
-  putTodo(state, data: {
-    id: number,
-    isDone: boolean,
-    task: string,
-  }): void {
+  putTodo(state, data: Todo): void {
     state.list = state.list.map((e) => {
       if (e.id === data.id) {
         return data
