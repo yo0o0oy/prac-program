@@ -1,5 +1,5 @@
-import { getAccessorType } from 'typed-vuex'
-import { getterTree, mutationTree, actionTree } from 'typed-vuex'
+import axios, { AxiosResponse } from "axios"
+import { /* getterTree, */ mutationTree, actionTree, getAccessorType } from 'typed-vuex'
 
 // これらは型推論に必要のため、空でも定義しておく
 export const state = () => ({
@@ -10,6 +10,7 @@ export const state = () => ({
   }>
 })
 export const getters = {}
+
 export const mutations = mutationTree(state, {
   getTodos(state, data: {
     id: number,
@@ -44,30 +45,28 @@ export const mutations = mutationTree(state, {
 export const actions = actionTree(
   { state, getters, mutations },
   {
-    getTodos({ commit }): void {
-      // await this.$axios({
-      //   method: 'get',
-      //   url: 'http://localhost:3001/todos',
-      // }).then((response) => {
-      //   commit('getTodos', response.data)
-      // })
-      commit('getTodos', [])
+    async getTodos({ commit }) {
+      await axios({
+        method: 'get',
+        url: 'http://localhost:3001/todos',
+      }).then((response: AxiosResponse) => {
+        commit('getTodos', response.data)
+      })
     },
-    postTodo({ commit }, data: {
+    async postTodo({ commit }, data: {
       id: number,
       isDone: boolean,
       task: string,
     }) {
-      // await this.$axios({
-      //   method: 'post',
-      //   url: 'http://localhost:3001/todos',
-      //   data,
-      // }).then((response) => {
-      //   commit('postTodo', response.data)
-      // })
-      commit('postTodo', data)
+      await axios({
+        method: 'post',
+        url: 'http://localhost:3001/todos',
+        data,
+      }).then((response: AxiosResponse) => {
+        commit('postTodo', response.data)
+      })
     },
-    putTodo({ commit }, { id, data }: {
+    async putTodo({ commit }, { id, data }: {
       id: number,
       data: {
         id: number,
@@ -75,31 +74,28 @@ export const actions = actionTree(
         task: string,
       },
     }) {
-      // await this.$axios({
-      //   method: 'put',
-      //   url: `http://localhost:3001/todos/${id}`,
-      //   data,
-      // }).then((response) => {
-      //   commit('putTodo', response.data)
-      // })
-      console.log(id)
-      commit('postTodo', data)
+      await axios({
+        method: 'put',
+        url: `http://localhost:3001/todos/${id}`,
+        data,
+      }).then((response: AxiosResponse) => {
+        commit('putTodo', response.data)
+      })
     },
-    deleteTodo({ commit }, id: number) {
-      // await this.$axios({
-      //   method: 'delete',
-      //   url: `http://localhost:3001/todos/${id}`,
-      // }).then(() => {
-      //   commit('deleteTodo', id)
-      // })
-      commit('deleteTodo', id)
+    async deleteTodo({ commit }, id: number) {
+      await axios({
+        method: 'delete',
+        url: `http://localhost:3001/todos/${id}`,
+      }).then(() => {
+        commit('deleteTodo', id)
+      })
     },
   },
 )
 
 export const accessorType = getAccessorType({
   state,
-  getters,
+  // getters,
   mutations,
   actions,
 })
