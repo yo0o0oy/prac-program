@@ -18,7 +18,7 @@
    ```
    $ npx tsc --init
    ```
-6. 実行するtsファイルを作成
+6. 実行するtsファイルを作成（サンプルではmain.tsを作成し、practice.jsの内容を書き換えてみる）
 7. typescriptファイルをコンパイル
    ```
    $ npx tsc main.ts（tsファイル名）
@@ -36,6 +36,7 @@
 ※型定義がないパッケージもある
 
 ```
+// 例
 $ npm install --save uuid
 $ npm install --save-dev @types/uuid
 ```
