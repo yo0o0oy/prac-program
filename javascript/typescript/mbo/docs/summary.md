@@ -13,13 +13,153 @@
    - 型推論：言語自体が変数の型を予測して補完してくれる機能。高速に処理できるメリットがある。
    - 静的型付け言語：変数やメソッドの戻り値にあらかじめ型を指定する
    - 動的型付け言語：実行時にデータ型を決める
- * インターフェースとクラスの定義が可能（→大規模なシステムをクラスを使って細分化し、チームで分担しながら開発を進めるのに適している）
+ * インターフェースとクラスの定義が可能（→大規模なシステムをクラスを使って細分化し、チームで分担しながら開発を進めるのに適している）JavaScriptで使えないクラス生成ができるので、どうしてもJavaScriptだと長くなるコーディングが、TypeScriptのクラスベースの開発によって簡略化することが可能
  * AltJsの一つでJavascriptと相互に互換性を持っている
    - AltJsとはJavaScriptより優れた機能を持ち、コンパイル（トランスパイル）後はJavaScriptのコードが生成される言語
    - TypeScriptで書いたコードをJavaScriptに変換できるので、JavaScriptで書かれたコードを、処理に応じてTypeScriptで書き換えられる。またTypeScriptから直接JavaScriptを呼び出したり、反対にJavaScriptからTypeScriptを呼び出すこともできる。→ プログラムのメンテナンス性↑
 
-
 ## 学習内容まとめ
+
+### **基本の型推論とアノテーション**
+ * typescriptは勝手に型を推論してくれるけど、明示的に型をつけたい時は型アノテーションを使う。
+ * 絶対に知っておくべき基本の型
+   - プリミティブ型
+     * string：すべての文字列を扱う型
+     * number：整数、浮動小数点数、整数、負数、Infinity（無限大）、NaN（非数）など全ての数値を扱う型
+     * boolean：trueとfalseの2つの値を扱う型
+   - 存在しないことを表現する型
+     * null：値が欠如していることを表す
+     * undefined：初期化されておらず値が割り当てられていないことを表す
+   - 型を許容する
+     * any：どんな型でも許容する = 全く安全でないのでなるべく回避する
+     * unknown：どんな型になるのか不明、代入した値によって型が変化する
+
+### **関数**
+ * 関数で使われる特別な型
+   - void：戻り値を持たない関数の戻り値
+   - never：決して戻ることのない関数の戻り値
+ * 関数の型定義
+   - パラメーター（関数宣言時に渡される値）
+     * オプションパラメーター（省略可能なパラメーター）：オプショナルを表す `?` をつける
+       ```
+       const sample1 = (a: string, b?:string): boolean => {}
+       ```
+     * デフォルトパラメーター（初期値をもつパラメーター）：`=` で指定する、順序は関係なく記述できる
+       ```
+       const sample2 = (a: string, b = 'sample'): boolean => {}
+       ```
+     * レストパラメーター（不特定多数の引数を配列として受け取るパラメーター）：`...` を用いる、パラメーターの最後に1つだけ指定できる
+       ```
+       const sample3 = (...numbers: number[]): number => {}
+       ```
+   - 戻り値（関数が返す値）
+ * 呼び出しシグネチャ
+   - どのような関数なのかを表現する型定義
+   - 記法は2種類
+     * 省略記法：アロー関数と似た形
+       ```
+       type Func1 = (param: string) => void
+       const func1: Func1 = () => {}
+       ```
+     * 完全な記法：オブジェクトと似た形
+       ```
+       type Func2 = {
+        (param: string): void
+       }
+       const func2: Func2 = () => {}
+       ```
+
+### **オブジェクト**
+ * tsのobject型はobjectであることを伝えるだけで構造は定義されないので定義しないといけない
+ * オブジェクトの型定義
+   - オブジェクトリテラル記法
+     * 基本の形
+       ```
+       let obj: {
+         name: string,
+         age: number,
+       } = {
+         name: 'Tom',
+         age: 20,
+       }
+       ```
+     * 特別なプロパティ
+       - オプショナル（`?`）のついたプロパティ = あってもなくてもOK
+       - `readonly` のついたプロパティ = 上書きできない
+       ```
+       let obj: {
+         readonly name: string,
+         age?: number,
+       } = {
+         name: 'Tom',
+       }
+       obj.name = 'John' // Error!
+       ```
+     * インデックスシグネチャ（ = オブジェクトの柔軟な型定義）
+       - オブジェクトが複数のプロパティを持つ可能性を示す
+       - `[key: T]: U` のように定義する
+       - keyはstringかnumberのみ
+         ```
+         const capitals: {
+          [countryName: string]: string,
+         } = {
+          Japan: 'Tokyo',
+          Korea: 'Seoul',
+         }
+         ```
+   - 型エイリアス
+     * typeを使って型に名前をつけて宣言できる
+     * 再利用できるので同じ型を何度も定義する必要がない + コードの見通しも良くなる
+     * 型に名前をつけることで変数の役割を明確化
+       ```
+       type Country: {
+         language: string,
+         name: string,
+       }
+       const japan: Country = {
+         language: 'Japanese',
+         name: 'Japan',
+       }
+       ```
+   - 複雑な型の定義
+     * 合併型（Union Types）：型 A, B の和集合（ = どちらかの型をもつ）を表す型
+     * 交差型（Intersection Types）：型 A, B の積集合（ = 両方の型をもつ）を表す型
+       ```
+       type Kick = {
+         effect: boolean;
+         hit: boolean;
+       };
+
+       type Punch = {
+         hit: boolean;
+         damage: number;
+       };
+
+       type KickOrPunch = Kick | Punch;
+       type KickAndPunch = Kick & Punch;
+       ```
+
+### **配列**
+
+### **ジェネリクス**
+
+### **クラス**
+
+### **interface vs type**
+
+### **非同期処理**
+
+
+
+
+
+<!-- ごみ -->
+## 学習内容まとめ
+
+* 参考書
+実践TypeScript ~ BFFとNext.js & Nuxt.jsの型定義 ~
+日本一わかりやすいTypeScript入門【基礎編】【とらゼミ】トラハックのエンジニア学習講座
+TypeScript超入門 覚えることは9個だけ！ プラスウイングTV
 
 ### 導入
 
@@ -186,68 +326,3 @@ typescriptの型宣言はとても強力な一方で、柔軟なプログラミ�
 
 ### 実践
 
-#### Vue.jsとTypescript
-* Vue.extendベースの開発
-* vue-class-componentベースの開発
-* Vuexの型推論を探求する
-
-#### Nuxt.jsとTypescript
-* Typescriptで始めるNuxt.js
-  - 開発環境の構築
-  - ページコンポーネント
-  - asyncData関数
-  - app.$axiosの付与
-  - asyncData関数を修正する
-* Vuexの型課題を解決する
-  - 名前空間を解決する
-  - Module型定義を分離する
-  - Vuex型定義を拡張する
-  - SFCでthis.$storeを参照する
-  - store.commitとstore.dispatchの型
-  - store.stateの型
-  - rootStateとrootGettersの型
-  - nuxtServerInitにも付与する
-  - 定義の整理
-
-
-
-
-
-
-## 構築手順
-
-* 手順
-  1. create-nuxt-app
-  2. tsconfig.js調整
-  3. stylusいれる
-
-## 実践
-以下の機能をもつTODOアプリを最初に素のJavascriptで作成し、学習した内容を元にTypescriptに書き換える学習を行いました。
-- json-serverを使ってモックを作成
-- `タスクを追加` 押下で新規タスク入力欄を追加 + 入力欄にフォーカス
-- `ごみ箱アイコン` 押下でタスクをリストから削除
-- タスク内容を編集後フォーカスアウトまたはEnter押下でタスクリストを更新
-
-キャプチャなど
-
-
-## Nuxt(Options API)をtypescript化
-1. Options API Vue.extend
-  * 従来のVueの記法で書けるため、ある程度Vue2系に慣れいている人であれば、追加の学習コストがほとんどない
-  * 変わる点
-    - script langをtsに変更
-    - Vueモジュールをimport/extend
-    - コンポーネント、ページ自体にクラス名を付与
-2. Class API @Component
-   * Nuxt.js（2系） + TypeScript環境で最もメジャーな組み合わせであったこともあり、ドキュメントが豊富に揃っている
-   * vue-property-decoratorを使用した記法が必要となるので、Vueの標準の記法とは異なり、多少慣れが必要
-   * Vue3では廃止
-3. Composition API
-   * Vue3で採用された新しいAPI
-   * 各コンポーネントがVueインスタンス（this）に依存しないためテストが書きやすく、TypeScriptとの相性が良い
-
-## 勉強してみた感想
-* ...
-* ...
-* ...
-* ...
