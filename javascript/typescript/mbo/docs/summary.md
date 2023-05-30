@@ -139,7 +139,38 @@
        type KickAndPunch = Kick & Punch;
        ```
 
-### **配列**
+### **配列/タプル**
+ * 配列の型定義
+   - T[]
+   - Array<T>
+   - 合併型も使える（けどあまり使わない方がいい）
+ * 配列の型推論
+   ```
+   const generateArray = () => {
+     const _array = [] // any[]と推論される
+     _array.push(123) // number[]と推論される
+     _array.push('ABC') // (string | number)[]と推論される
+   }
+   const array = generateArray()
+   array.push(true) // Error!
+   ```
+ * タプル（各要素の数と型を定義した配列）の型定義
+   - 基本の記法
+     ```
+     let response: [number, string] = [200, 'OK]
+     ```
+   - 可変長（レストパラメーター）も使える
+     ```
+     const friends: [string, ...string[]] = ['Tom', 'John', 'Mary']
+     ```
+ * イミュータブル（= 書き換え不可）な配列/タプル
+   - jsの配列はconstで宣言してもミュータブル（書き換え可能）
+   - `readonly`でイミュータブルな配列/タプルを作れる
+     ```
+     const commands: readonly string[] = ['git add', 'git commit', 'git push']
+     const commands: ReadonlyArray<string> = ['git add', 'git commit', 'git push']
+     const commands: Readonly<string[]> = ['git add', 'git commit', 'git push']
+     ```
 
 ### **ジェネリクス**
 
