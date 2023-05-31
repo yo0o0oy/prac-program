@@ -172,7 +172,40 @@
      const commands: Readonly<string[]> = ['git add', 'git commit', 'git push']
      ```
 
-### **ジェネリクス**
+### **ジェネリック型（総称型）**
+ * 型の種類は異なるが同じデータの構造を持っているものを共通化するときに使う（= 型のポリモーフィズム）
+ * ポリモーフィズム（多態性）：オブジェクト指向の考え方の一つで、ある1つの関数（メソッド）の呼び出しに対し、オブジェクト毎に異なる動作をすることを言う。
+ * 型をパラメーター化する（後から実パラメータを渡す）
+ * `T`, `U`, `V`, `W` などがよく使われる
+   ```
+   const stringReduce = (array: string[], initialValue: string): string => {}
+   const numberReduce = (array: number[], initialValue: number): number => {}
+   ↓
+   type Reduce<T> = {
+     (array: T[], initialValue: T): T
+   }
+   const reduce: Reduce<string> = (array, initialValue) => {} // 呼び出す時に具体的な型をバインド
+   ```
+ * 呼び出しシグネチャ
+   - 完全記法
+     * シグネチャ全体にジェネリック型を割り当てる
+      ```
+      type genericReduce1<T> = {
+        (array: T[], initialValue: T): T
+      }
+      ```
+     * 個々のシグネチャ全体にジェネリック型を割り当てる
+      ```
+      type genericReduce2 = {
+        <T>(array: T[], initialValue: T): T
+        <U>(array: U[], iniUialValue: U): U
+      }
+      ```
+   - 省略記法（こっちの方が一般的）
+     ```
+     type genericReduce1<T> = (array: T[], initialValue: T) => T
+     type genericReduce2 = <T>(array: T[], initialValue: T) => T
+     ```
 
 ### **クラス**
 
