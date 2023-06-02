@@ -228,10 +228,65 @@
    - 再利用のための仕組み・手段
    - javascriptはオブジェクト思考開発ができなくはないが型をつけれないのでやりにくい/オブジェクト思考の恩恵を受けにくい
 
-### **interface vs type**
+### **Interfaceと Type Aliasの違い**
+ * Interface
+   - interface宣言子で定義
+   - Type Aliasと違って `=` は不要
+   - 同名のinterfaceを宣言すると型が自動的に結合（マージ）される
+     ```
+     interface Bread {
+       calories: number
+     }
+     interface Bread {
+       type: string
+     }
+     const fracePan: Bread = {
+       calories: 350,
+       type: 'hard',
+     }
+     ```
+   - `extends` を使うことで継承したサブインターフェースを作れる
+     ```
+     interface Book {
+       page: number
+       title: string
+     }
+     interface Magazine extens Book {
+       cycle: 'daily' | 'weekly' | 'monthly' | 'yearly'
+     }
+     const jump: Magazine = {
+       cycle: 'weekly',
+       page: 300,
+       title: '週刊少年ジャンプ',
+     }
+     ```
+   - `implements` を使うことでclassに型を定義できる
+     ```
+     interface Book {
+       page: number
+       title: string
+     }
+     class Comic implements Book {
+       page: number
+       title: string
 
+       constructor(page: number, title: string) {
+        this.page = page
+        this.title = title
+       }
+     }
+     const popularComic = new Comic(200, '鬼滅の刃')
+     ```
+ * 比較
+   ||Type Alias|Interface|
+   |:-:|:-:|:-:|
+   |**用途**|複数の場所で再利用する<br>型に名前をつけるため|オブジェクト・クラス・関数の <br>構造を定義するため|
+   |**拡張性**|同名のtypeを宣言するとエラー|同名のinterfaceを宣言するとマージされる<br> （宣言のマージ）|
+   |**継承**|継承はできない<br>交差型で新しい型エイリアスを作る|extendsによる継承ができる|
+   |**使用できる型**|オブジェクトや関数以外の<br>プリミティブ、配列、タプルも宣言可能|オブジ ェクトと関数の型のみ宣言できる|
+   |**考慮事項**|拡張しにくい不便さがある|拡張できることによりバグを生む可能性|
+   |**いつ使う**|アプリ開発ではType Alias|不特定多数の人が使う<br>ライブラリ開発では Interface|
 ### **非同期処理**
-
 
 
 
