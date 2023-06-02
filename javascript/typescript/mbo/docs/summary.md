@@ -70,7 +70,7 @@
        ```
 
 ### **オブジェクト**
- * tsのobject型はobjectであることを伝えるだけで構造は定義されないので定義しないといけない
+ * TypeScriptのobject型はobjectであることを伝えるだけで構造は定義されないので定義しないといけない
  * オブジェクトの型定義
    - オブジェクトリテラル記法
      * 基本の形
@@ -163,8 +163,8 @@
      ```
      const friends: [string, ...string[]] = ['Tom', 'John', 'Mary']
      ```
-   - javascriptの配列はconstで宣言してもミュータブル（書き換え可能）
  * イミュータブル（= 書き換え不可）な配列/タプル
+   - JavaScriptの配列はconstで宣言してもミュータブル（書き換え可能）
    - `readonly`でイミュータブルな配列/タプルを作れる
      ```
      const commands: readonly string[] = ['git add', 'git commit', 'git push']
@@ -226,12 +226,12 @@
    - 抽象クラスはインスタンス化できない
  * オブジェクト思考
    - 再利用のための仕組み・手段
-   - javascriptはオブジェクト思考開発ができなくはないが型をつけれないのでやりにくい/オブジェクト思考の恩恵を受けにくい
+   - JavaScriptはオブジェクト思考開発ができなくはないが型をつけれないのでやりにくい/オブジェクト思考の恩恵を受けにくい
 
-### **Interfaceと Type Aliasの違い**
+### **Interfaceと型エイリアスの違い**
  * Interface
    - interface宣言子で定義
-   - Type Aliasと違って `=` は不要
+   - 型エイリアスと違って `=` は不要
    - 同名のinterfaceを宣言すると型が自動的に結合（マージ）される
      ```
      interface Bread {
@@ -278,14 +278,14 @@
      const popularComic = new Comic(200, '鬼滅の刃')
      ```
  * 比較
-   ||Type Alias|Interface|
+   ||型エイリアス|Interface|
    |:-:|:-:|:-:|
    |**用途**|複数の場所で再利用する<br>型に名前をつけるため|オブジェクト・クラス・関数の <br>構造を定義するため|
    |**拡張性**|同名のtypeを宣言するとエラー|同名のinterfaceを宣言するとマージされる<br> （宣言のマージ）|
    |**継承**|継承はできない<br>交差型で新しい型エイリアスを作る|extendsによる継承ができる|
    |**使用できる型**|オブジェクトや関数以外の<br>プリミティブ、配列、タプルも宣言可能|オブジ ェクトと関数の型のみ宣言できる|
    |**考慮事項**|**拡張しにくい不便さがある**|**拡張できることによりバグを生む可能性**|
-   |**いつ使う**|アプリ開発ではType Alias|不特定多数の人が使う<br>ライブラリ開発では Interface|
+   |**いつ使う**|アプリ開発では型エイリアス|不特定多数の人が使う<br>ライブラリ開発では Interface|
 
 ### **非同期処理**
  * 非同期処理とは
@@ -309,12 +309,11 @@
      * async/await
        ```
        async find(id: string): Promise<User> {
-        const { name, age } = await findById(id);
-
+        const { name, age } = await findById(id)
         return {
           id,
           name,
           age,
         }
       }
-       ```
+      ```
