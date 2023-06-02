@@ -284,183 +284,37 @@
    |**拡張性**|同名のtypeを宣言するとエラー|同名のinterfaceを宣言するとマージされる<br> （宣言のマージ）|
    |**継承**|継承はできない<br>交差型で新しい型エイリアスを作る|extendsによる継承ができる|
    |**使用できる型**|オブジェクトや関数以外の<br>プリミティブ、配列、タプルも宣言可能|オブジ ェクトと関数の型のみ宣言できる|
-   |**考慮事項**|拡張しにくい不便さがある|拡張できることによりバグを生む可能性|
+   |**考慮事項**|**拡張しにくい不便さがある**|**拡張できることによりバグを生む可能性**|
    |**いつ使う**|アプリ開発ではType Alias|不特定多数の人が使う<br>ライブラリ開発では Interface|
+
 ### **非同期処理**
+ * 非同期処理とは
+   - 通信が発生する処理で起きる
+     * Web APIを叩く
+     * データベースへクエリを投げる
+   - 実行完了を待たずに次の処理に進む
+   - Javascriptはシングルスレットの言語だけど効率よく処理を行うための機能
+   - 長所は複数の処理を並行して効率よく実行できること
+   - 短所は制御が難しい  
+     → Promiseやasync/awaitで非同期処理を同機的に制御する  
+     → 型をつけることでよりわかりやすく
+   - 型の書き方
+     * Promise
+       ```
+       type Fetch = () => Promise<Item | null>
+       const fetch: Fetch = () => {
+         // 非同期処理を行い、最終的にItemかnullを返す
+       }
+       ```
+     * async/await
+       ```
+       async find(id: string): Promise<User> {
+        const { name, age } = await findById(id);
 
-
-
-
-<!-- ごみ -->
-## 学習内容まとめ
-
-* 参考書
-実践TypeScript ~ BFFとNext.js & Nuxt.jsの型定義 ~
-日本一わかりやすいTypeScript入門【基礎編】【とらゼミ】トラハックのエンジニア学習講座
-TypeScript超入門 覚えることは9個だけ！ プラスウイングTV
-
-### 導入
-
-#### 開発環境と設定
-* vscode
-* tscコマンド
-* ビルドツールと設定
-  - tsconfig.json [参考](https://blog.isystk.com/system_develop/frontend/typescript/757/)
-    * compilerOptions
-      - target
-      - module
-      - ...
-      - ...
-      - ...
-      - ...
-      - ...
-    * exclude
-
-#### 基礎
-* 型
-  - 基本の型
-    * boolean型
-    * number型
-    * string型
-    * array型
-      ```
-      let list: number[] = [1, 2, 3]
-      let list: Array<number> = [1, 2, 3]
-      ```
-    * tuple型：固定数の要素の型が分かっている配列
-      ```
-      let x: [string, number]
-      x = ['hello', 10] // OK
-      x = [10, 'hello'] // Error!
-      ```
-    * any型：型の不明な変数に付与することで特定の値の型チェックを無効にしコンパイルを通過させる。typescriptの恩恵を受けられないため、できる限り使わない。
-    * unknown型：any型に似ているが型安全なanyを表したいときに利用する。値の代入には寛容だが、値の利用に関しては厳しい。
-      ```
-      const numbers: unknown[] = ['0'] // OK
-      numbers[0].toFixed(1) // Error!
-      ```
-    * void型：≒ any型の反対。型がまったくないことを表す。一般的に値を返さない関数の戻り型として利用する。
-    * null型／undefined型：全ての型のサブタイプで単体ではあまり役に立たない。（--strictNullChecksフラグをtrueにするとvoid型、およびそれぞれのタイプのみに割り当て可能となる）
-    * never型：発生し得ない値の型。
-      ```
-      // 戻り値を得られないためnever型とできる
-      function error(message: string): never {
-        throw new Error(message)
+        return {
+          id,
+          name,
+          age,
+        }
       }
-      ```
-    * object型：非プリミティブ型（ = boolean, number, string, symbol, null, undefinedのいずれでもない）。ブレース（{}）を使った型表現ではエラーを得ることができない。
-      ```
-      let objBrace = {}
-      let objType = object
-
-      objBrace = true
-      objBrace = 0
-      objType = false // Error!
-      objType = 1 // Error!
-      ```
-  - 高度な型
-    * Intersection Types（交差）：複数の型を1つに統合する。
-      ```
-      type Dog = {
-        tail: Tail
-        bark: () => void
-      }
-      type Bird = {
-        wing: Wing
-        fly: () => void
-      }
-      type Kimera = Dog & Bird
-
-      // 推論結果
-      type Kimera = {
-        tail: Tail
-        wing: Wing
-        bark: () => void
-        fly: () => void
-      }
-      ```
-    * Union Types（共用体）：複数の型のうちの1つの方が成立することを示す。
-      ```
-      let value: boolean | number | string
-      value = false // OK
-      value = 1 // OK
-      value = '2' // OK
-
-      let numberOrStrings: (number | string)[]
-      numberOrStrings = [0, '1'] // OK
-      numberOrStrings = [0, '1', false] // Error!
-      ```
-    * Literal Types：正確な値を指定できる
-      ```
-      // String Literal Types（string型のサブタイプ）
-      let users: 'Taro' | 'Jiro' | 'Hanako'
-      users = 'Hanako' // OK
-      users = 'Keiko' // Error!
-
-      // Numeric Literal Types（number型のサブタイプ）
-      let bit: 8 | 16 | 32 | 64
-      bit = 8 // OK
-      bit = 12 // Error!
-
-      // Boolean Literal Types（boolean型のサブタイプ）
-      let truth: true
-      truth = true // OK
-      truth = false // Error!
-* typeofキーワードとkeyofキーワード
-* アサーション：？
-  ```
-  // 書き方は2通り
-  let someValue: any = 'this is a string'
-  let strLength: number = (<string>someValue).length // JSXでは非推奨
-  let strLength: number = (someValue as string).length
-  ```
-* クラス
-* 列挙型（enum）：複数の変数に一連の整数値を付ける必要がある場合に使用すると便利。 例えばswitch-case文のcaseの値など。
-
-#### 型推論
-typescriptの型宣言はとても強力な一方で、柔軟なプログラミングも許容する。Javascriptらしさを損なわず、開発者を手助けする。
-ちょうどよい型推論が魅力である。
-
-* const / let
-  変数宣言時に代入された値からその値の型を推論できる。（※ constはWidening Literal Type）
-  ```
-  let user = 'Taro' // let user: string
-  let value = 0 // let value: number
-  let flag = false // let flag: boolean
-
-  const user = 'Taro' // const user: string
-  const value = 0 // const value: number
-  const flag = false // const flag: boolean
-  ```
-* Array / Tuple
-  ```
-  // Array
-  const a1 = [true, false] // const a1: boolean[]
-  const a2 = [0, 1, '2'] // const a2: (string | number)[]
-  const a3 = [galse, 1, '2'] // const a3: (string | number | boolean)[]
-
-  // Tuple
-  ```
-* object
-* 関数の戻り型
-* Promise
-* import構文
-* JSON
-
-#### 型安全
-* 制約による型安全
-* 抽象度による型安全
-* 絞り込みによる型安全
-
-#### 型システム
-* 型の互換性
-* 宣言の結合
-
-#### 高度な型
-* Generics
-* Conditional Types
-* Utility Types
-
-
-### 実践
-
+       ```
