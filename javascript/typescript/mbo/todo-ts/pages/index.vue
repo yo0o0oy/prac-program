@@ -61,7 +61,7 @@ export default Vue.extend({
       const allTodos: Todo[] = JSON.parse(JSON.stringify(this.allTodos))
       this.todos = this.isShowAll ? allTodos : allTodos.filter((todo: Todo): boolean => !todo.isDone)
     },
-    async updateTask(index: number, ev: HTMLTextAreaElement) {
+    async updateTask(index: number, ev: HTMLTextAreaElement): Promise<void> {
       if (ev.type !== 'blur' && this.$refs.task !== undefined) {
         // FIXME: TS7053 エラー
         // this.$refs.task[index].blur()
@@ -71,22 +71,22 @@ export default Vue.extend({
       await this.$store.dispatch('todo/putTodo', { id: todo.id, data: todo })
       this.trim()
     },
-    async del(todo: Todo) {
+    async del(todo: Todo): Promise<void> {
       if (todo.task !== '') {
         await this.$store.dispatch('todo/deleteTodo', todo.id)
       }
     },
-    trim() {
-      const blankIds = this.allTodos.filter((todo) => !todo.task).map((todo) => todo.id)
-      blankIds.forEach((id) => {
+    trim(): void {
+      const blankIds = this.allTodos.filter((todo: Todo): boolean => !todo.task).map((todo: Todo): number => todo.id)
+      blankIds.forEach((id: number): void => {
         this.$store.dispatch('todo/deleteTodo', id)
       })
     },
-    toggleStatus(todo: Todo) {
+    toggleStatus(todo: Todo): void {
       todo.isDone = !todo.isDone
       this.$store.dispatch('todo/putTodo', { id: todo.id, data: todo })
     },
-    async addTask() {
+    async addTask(): Promise<void> {
       await this.$store.dispatch('todo/postTodo', {
         isDone: false,
         task: '',
