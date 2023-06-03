@@ -2,7 +2,7 @@
 header.header
   img.logo(src="images/logo.png")
   span TODOLIST
-    span - JavaScript -
+    span JS
 </template>
 
 <style lang="stylus">
@@ -23,8 +23,14 @@ header.header
     color white
     font-size 24px
     font-family-arial()
+    display flex
+    align-items center
+    gap 10px
     span
+      padding 3px 5px
+      border-radius 4px
       font-size 0.55em
-      margin-left 5px
       font-weight bold
+      color color-main
+      background-color white
 </style>
