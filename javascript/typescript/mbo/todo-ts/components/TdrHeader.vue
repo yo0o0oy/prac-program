@@ -24,7 +24,7 @@ header.header
     font-size 24px
     font-family-arial()
     span
-      font-size 0.5em
-      margin-left 10px
+      font-size 0.55em
+      margin-left 5px
       font-weight bold
 </style>
