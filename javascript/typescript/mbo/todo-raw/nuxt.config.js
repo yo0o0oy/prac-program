@@ -2,7 +2,7 @@ import * as FontAwesome from './plugins/fontawesome'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'TODOLIST - raw js',
+    title: 'TODOLIST - JavaScript -',
     htmlAttrs: {
       lang: 'en',
     },
