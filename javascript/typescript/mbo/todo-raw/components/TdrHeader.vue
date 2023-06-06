@@ -2,7 +2,7 @@
 header.header
   img.logo(src="images/logo.png")
   span TODOLIST
-    span JS
+    span RAW
 </template>
 
 <style lang="stylus">
