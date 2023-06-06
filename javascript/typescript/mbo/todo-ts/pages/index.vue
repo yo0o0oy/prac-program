@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Todo } from '~/types/todo'
+import { Todo, TaskRef } from '~/types/todo'
 
 export default Vue.extend({
   data() {
@@ -61,10 +61,9 @@ export default Vue.extend({
       const allTodos: Todo[] = JSON.parse(JSON.stringify(this.allTodos))
       this.todos = this.isShowAll ? allTodos : allTodos.filter((todo: Todo): boolean => !todo.isDone)
     },
-    async updateTask(index: number, ev: HTMLTextAreaElement): Promise<void> {
+    async updateTask(index: any, ev: HTMLTextAreaElement): Promise<void> {
       if (ev.type !== 'blur' && this.$refs.task !== undefined) {
-        // FIXME: TS7053 エラー
-        // this.$refs.task[index].blur()
+        ;(this.$refs.task as unknown as TaskRef)[index].blur()
         return
       }
       const todo = this.todos[index]
@@ -91,11 +90,10 @@ export default Vue.extend({
         isDone: false,
         task: '',
       })
-      // FIXME: TS7053 エラー
-      // while(!this.$refs.task || !this.$refs.task[this.todos.length - 1]) {
-      //   await new Promise((resolve) => setTimeout(resolve, 200))
-      // }
-      // this.$refs.task[this.todos.length - 1].focus()
+      while(!this.$refs.task) {
+        await new Promise((resolve) => setTimeout(resolve, 200))
+      }
+        ;(this.$refs.task as unknown as TaskRef)[this.todos.length - 1].focus()
     },
   },
 }
