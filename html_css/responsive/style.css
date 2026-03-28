@@ -1,0 +1,44 @@
+header {
+  background-color: #ddd;
+}
+
+footer {
+  background-color: #ddd;
+}
+
+.wrapper {
+  width: 90%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+}
+
+#main .wrapper aside {
+  max-width: 300px;
+  width: 40%;
+  /* background-color: #bbb; */
+}
+
+#main .wrapper #contents {
+  max-width: 500px;
+  min-height: 500px;
+  width: 60%;
+  /* background-color: #ccc; */
+}
+
+@media screen and (max-width: 767px) {
+
+  #main .wrapper {
+    flex-direction: column;
+  }
+
+  #main .wrapper aside {
+    max-width: none;
+    width: 100%;
+  }
+
+  #main .wrapper #contents {
+    max-width: none;
+    width: 100%;
+  }
+}
