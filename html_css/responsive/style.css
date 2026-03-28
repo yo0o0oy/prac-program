@@ -16,14 +16,12 @@ footer {
 #main .wrapper aside {
   max-width: 300px;
   width: 40%;
-  /* background-color: #bbb; */
 }
 
 #main .wrapper #contents {
   max-width: 500px;
   min-height: 500px;
   width: 60%;
-  /* background-color: #ccc; */
 }
 
 @media screen and (max-width: 767px) {
