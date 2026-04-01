@@ -1,0 +1,133 @@
+body {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.8;
+    background-color: #fff;
+}
+
+
+.wrap {
+    max-width: 730px;
+    width: 88%;
+    margin: 0 auto;
+    padding: 82px 0;
+    box-sizing: border-box;
+}
+
+.wrap section {
+    margin: 55px 0;
+}
+
+.wrap section > h2 {
+    font-size: 14px;
+    line-height: 1.4;
+    font-weight: bold;
+    color: #111;
+}
+
+.wrap section > h2 + p {
+    margin: 4px 0 0;
+}
+
+#profile dl {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#profile dl dt {
+    width: 92px;
+}
+
+#profile dl dt img {
+    max-width: 100%;
+}
+
+#profile dl dd h1 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #111;
+    line-height: 1.4;
+}
+
+#profile dl dd a {
+    font-size: 12px;
+    line-height: 1;
+    color: #555;
+    padding: 6px 10px;
+    margin: 5px 0 0;
+    text-decoration: none;
+    background-color: #f6f6f6;
+    display: inline-block;
+    border-radius: 12px;
+    transition: .3s;
+}
+
+#profile dl dd a:hover {
+    background-color: #ddd;
+}
+
+.desc-list {
+    margin: 24px 0;
+    display: grid;
+    grid-template-columns: 118px 1fr;
+    gap: 10px;
+}
+
+.desc-list dd p.name {
+    color: #111;
+}
+
+.desc-list dd p.name.underline {
+    text-decoration: underline;
+}
+
+.desc-list dd .image-list {
+    margin: 25px 0;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(auto, 150px));
+}
+
+.desc-list dd .image-list img {
+    width: 100%;
+    max-width: 150px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: solid 1px #E5E5E5;
+    box-sizing: border-box;
+}
+
+.desc-list dd .link-box {
+    margin: 25px 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    text-decoration: none;
+    border: solid 1px #e5e5e5;
+    box-sizing: border-box;
+    border-radius: 8px;
+    transition: .3s;
+}
+
+.desc-list dd .link-box:hover {
+    background-color: #eee;
+}
+
+.desc-list dd .link-box img {
+    max-width: 100%;
+    height: 90px;
+    aspect-ratio: 150 / 90;
+    object-fit: cover;
+    border-radius: 8px 0 0 8px;
+
+}
+
+.desc-list dd .link-box .text {
+    padding: 10px 20px;
+}
+
+
+
+
