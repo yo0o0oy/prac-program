@@ -1,0 +1,53 @@
+body {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.8;
+    background-color: #fff;
+}
+
+
+.wrap {
+    max-width: 730px;
+    width: 88%;
+    margin: 0 auto;
+    padding: 82px 0;
+    box-sizing: border-box;
+}
+
+#profile dl {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+#profile dl dt {
+    width: 92px;
+}
+
+#profile dl dt img {
+    max-width: 100%;
+}
+
+#profile dl dd h1 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #111;
+    line-height: 1.4;
+}
+
+#profile dl dd a {
+    font-size: 12px;
+    line-height: 1;
+    color: #555;
+    padding: 6px 10px;
+    margin: 5px 0 0;
+    text-decoration: none;
+    background-color: #f6f6f6;
+    display: inline-block;
+    border-radius: 12px;
+    transition: .3s;
+}
+
+#profile dl dd a:hover {
+    background-color: #ddd;
+}
