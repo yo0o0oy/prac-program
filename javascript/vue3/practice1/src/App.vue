@@ -3,16 +3,16 @@ import { ref, computed } from 'vue'
 
 const count = ref(0)
 
-const countValue = computed(() => {
-  return count.value < 10 ? count.value : 'たくさん！'
+const isMany = computed(() => {
+  return count.value >= 10
 })
-
 </script>
 
 <template>
   <h1>カウンターアプリを作る</h1>
   <div id="counter">
-    <p class="count">{{ countValue }}</p>
+    <p v-if="isMany" class="count">たくさん！</p>
+    <p v-else class="count">{{ count }}</p>
     <div class="buttons">
       <button class="minus" @click="count--">−1</button>
       <button class="plus" @click="count++">＋1</button>
