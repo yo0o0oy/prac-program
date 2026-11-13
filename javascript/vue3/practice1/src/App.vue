@@ -1,19 +1,22 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const count = ref(0)
+
+const countValue = computed(() => {
+  return count.value < 10 ? count.value : 'たくさん！'
+})
 
 </script>
 
 <template>
   <h1>カウンターアプリを作る</h1>
   <div id="counter">
-    <p v-if="true" class="count">{{ count }}</p>
-    <p v-else class="count">たくさん！</p>
+    <p class="count">{{ countValue }}</p>
     <div class="buttons">
-      <button class="minus">−1</button>
-      <button class="plus">＋1</button>
-      <button class="reset">リセット</button>
+      <button class="minus" @click="count--">−1</button>
+      <button class="plus" @click="count++">＋1</button>
+      <button class="reset" @click="count = 0">リセット</button>
     </div>
   </div>
 </template>
