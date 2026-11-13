@@ -1,11 +1,21 @@
-<script setup>
+<script lang="ts" setup>
 import { ref, computed } from 'vue'
 
-const count = ref(0)
+const count = ref<number>(0)
 
 const isMany = computed(() => {
   return count.value >= 10
 })
+
+const countdown = (): void => {
+  count.value--
+}
+const countup = (): void => {
+  count.value++
+}
+const reset = (): void => {
+  count.value = 0
+}
 </script>
 
 <template>
@@ -14,9 +24,9 @@ const isMany = computed(() => {
     <p v-if="isMany" class="count">たくさん！</p>
     <p v-else class="count">{{ count }}</p>
     <div class="buttons">
-      <button class="minus" @click="count--">−1</button>
-      <button class="plus" @click="count++">＋1</button>
-      <button class="reset" @click="count = 0">リセット</button>
+      <button class="minus" @click="countdown">−1</button>
+      <button class="plus" @click="countup">＋1</button>
+      <button class="reset" @click="reset">リセット</button>
     </div>
   </div>
 </template>

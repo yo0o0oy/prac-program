@@ -19,9 +19,11 @@
     "eslint-plugin-vue": "^10.12.1",
     "globals": "^17.14.0",
     "prettier": "^3.10.1",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.2",
     "vite": "^8.2.2",
-    "vite-plugin-vue-devtools": "^8.2.1"
+    "vite-plugin-vue-devtools": "^8.2.1",
+    "vue-tsc": "^3.3.14"
   },
   "engines": {
     "node": "^22.18.0 || >=24.12.0"
