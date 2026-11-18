@@ -1,77 +1,48 @@
-<script lang="ts" setup>
-import { ref, computed } from 'vue'
-
-const count = ref<number>(0) // 型付けなしでもいい
-
-const isMany = computed(() => {
-  return count.value >= 10
-})
-
-const countdown = (): void => {
-  count.value--
-}
-const countup = (amount: number): void => {
-  count.value += amount
-}
-const reset = (): void => {
-  count.value = 0
-}
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <h1>カウンターアプリを作る</h1>
-  <div id="counter">
-    <p v-if="isMany" class="count">たくさん！</p>
-    <p v-else class="count">{{ count }}</p>
-    <div class="buttons">
-      <button class="minus" @click="countdown">−1</button>
-      <button class="plus" @click="countup(1)">＋1</button>
-      <button class="plus" @click="countup(5)">＋5</button>
-      <button class="reset" @click="reset">リセット</button>
-    </div>
-  </div>
+  <ul class="pagelist">
+    <li><RouterLink to="/counter">カウンター</RouterLink></li>
+    <li><RouterLink to="/task">タスク</RouterLink></li>
+  </ul>
+  <RouterView />
 </template>
 
 <style scoped>
-#counter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#counter .count {
-  font-size: 40px;
-  font-weight: bold;
-  margin: 0 0 15px;
-}
-
-#counter .buttons {
+.pagelist {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
+  list-style: none;
+  margin: 0 0 30px;
+  padding: 0;
 }
 
-#counter .buttons button {
-  border: none;
-  line-height: 40px;
-  padding: 0 20px;
-  border-radius: 20px;
-  color: #777;
-  transition: .3s;
-  font-size: 16px;
+.pagelist li {
+  margin: 0;
 }
 
-#counter .buttons button:hover {
-  opacity: .7;
+.pagelist li a {
+  color: #222;
+  text-decoration: none;
+  position: relative;
 }
 
-#counter .buttons .plus {
-  color: #fff;
+.pagelist li a::after {
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  content: '';
+  width: 0;
+  height: 1px;
+  display: block;
   background-color: #222;
+  transition: .3s;
 }
 
-#counter .buttons .reset {
-  border: solid 1px #777;
-  background-color: transparent;
+.pagelist li a:hover::after {
+  width: 100%;
 }
 </style>
