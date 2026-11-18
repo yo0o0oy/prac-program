@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import { ref, computed, ComputedRef } from 'vue'
+import { ref, computed } from 'vue'
+import type { ComputedRef } from 'vue' // ComputedRef は実行時に使う値ではなく、型だけなので import type を使う
 
 type TaskStatus = 'todo' | 'doing' | 'done'
 
-let status = ref<TaskStatus>('todo')
+const status = ref<TaskStatus>('todo')
 const statuses: TaskStatus[] = ['todo', 'doing', 'done']
 const changeStatus = (): void => {
   let index = statuses.indexOf(status.value) + 1
-  if (index == statuses.length) index = 0
+  if (index === statuses.length) index = 0
   status.value = statuses[index]
 }
 const taskName: ComputedRef<string> = computed(() => {
@@ -18,8 +19,6 @@ const taskName: ComputedRef<string> = computed(() => {
       return '作業中'
     case 'done':
       return '完了！'
-    default:
-      return '未着手'
   }
 })
 </script>
