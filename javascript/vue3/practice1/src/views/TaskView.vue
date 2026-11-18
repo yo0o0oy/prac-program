@@ -1,13 +1,37 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref, computed, ComputedRef } from 'vue'
+
+type TaskStatus = 'todo' | 'doing' | 'done'
+
+let status = ref<TaskStatus>('todo')
+const statuses: TaskStatus[] = ['todo', 'doing', 'done']
+const changeStatus = (): void => {
+  let index = statuses.indexOf(status.value) + 1
+  if (index == statuses.length) index = 0
+  status.value = statuses[index]
+}
+const taskName: ComputedRef<string> = computed(() => {
+  switch(status.value) {
+    case 'todo':
+      return '未着手'
+    case 'doing':
+      return '作業中'
+    case 'done':
+      return '完了！'
+    default:
+      return '未着手'
+  }
+})
+</script>
 
 <template>
   <h1>タスク管理</h1>
   <div id="tasks">
     <dl class="task">
-      <dt>タスク１<span class="message">完了！</span></dt>
-      <dd class="status">未着手</dd>
+      <dt>タスク１<span v-if="status == 'done'" class="message">完了！</span></dt>
+      <dd :class="['status', status]">{{taskName}}</dd>
       <dd>
-        <button class="update">
+        <button class="update" @click="changeStatus">
           <img src="../assets/images/ico-update.svg" alt="ステータス更新" width="34"/>
         </button>
       </dd>
@@ -45,10 +69,21 @@ h1 {
 
 #tasks .task dd.status {
   padding: 5px 15px;
-  background-color: rgb(179, 40, 40);
   color: #fff;
   border-radius: 20px;
   text-align: center;
+}
+
+#tasks .task dd.status.todo {
+  background-color: rgb(179, 40, 40);
+}
+
+#tasks .task dd.status.doing {
+  background-color: rgb(199, 149, 22);
+}
+
+#tasks .task dd.status.done {
+  background-color: #1e820f
 }
 
 #tasks .task dd .update {
